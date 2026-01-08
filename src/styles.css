@@ -1,3 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import "tailwindcss";
+input,textarea,select{
+    border-radius: 14px;
+    background-color: #F8FAFC;
+    border-color: #C3CAD8;
+}
+label{
+    font-size: 14px;
+}

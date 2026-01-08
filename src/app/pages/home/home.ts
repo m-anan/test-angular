@@ -1,16 +1,17 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { StepperComponent } from '../../steps/stepper';
+import { PreviewCardComponent } from '../../preview/preview-card';
 
 @Component({
-  selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, FormsModule, RouterModule],
-  templateUrl: './app.html',
-  styleUrl: './app.css',
+  selector: 'app-home',
+  imports: [CommonModule, StepperComponent, PreviewCardComponent],
+  templateUrl: './home.html',
+  styleUrl: './home.css',
 })
-export class App {
+export class Home {
   steps = ['Info', 'Contact', 'Review'];
 
   currentStep = 1;
@@ -34,5 +35,4 @@ export class App {
     if (this.currentStep === 2) return this.form.email.includes('@');
     return true;
   }
-  protected readonly title = signal('test-angular');
 }

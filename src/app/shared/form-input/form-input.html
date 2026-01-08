@@ -1,0 +1,30 @@
+<div class="flex flex-col mb-2 relative w-full">
+  <label class="mb-1 font-medium">
+    {{ label }}
+    <span *ngIf="required" class="text-red-500">*</span>
+  </label>
+
+  <!-- Input wrapper for absolute positioning -->
+  <div class="relative">
+    <input
+      class="border p-2 w-full rounded pr-16"
+      [placeholder]="placeholder"
+      [value]="model"
+      [attr.maxLength]="maxLength"
+      (input)="onInput($any($event.target).value)"
+    />
+
+    <!-- Counter INSIDE -->
+    @if (counterInside) {
+    <span class="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-400">
+      {{ count }}/{{ maxLength }}
+    </span>
+    }
+  </div>
+
+  <!-- Counter BELOW -->
+
+  @if (!counterInside) {<span class="text-sm self-end text-gray-500 mt-1">
+    {{ count }}/{{ maxLength }} </span
+  >}
+</div>
