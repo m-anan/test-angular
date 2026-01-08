@@ -14,6 +14,7 @@ import { TierTabComponent } from '../tier-tab/tier-tab.component';
 import { TierEditorComponent } from '../tier-editor/tier-editor.component';
 import { TierRecommendationComponent } from '../tier-recommendation/tier-recommendation.component';
 import { TIER_TEMPLATES } from '../../core/constants/app.constants';
+import { PreviewButtonComponent } from '../preview-button/preview-button';
 
 @Component({
   selector: 'app-step3-tiers',
@@ -25,10 +26,16 @@ import { TIER_TEMPLATES } from '../../core/constants/app.constants';
     TierTabComponent,
     TierEditorComponent,
     TierRecommendationComponent,
+    PreviewButtonComponent,
   ],
   template: `
-    <h2 class="text-xl font-semibold">Tier & Pricing Breakdown</h2>
-    <p>Configure your offering price and (optional) tiers</p>
+    <div class="flex justify-between items-center w-full">
+      <div class="">
+        <h2 class="text-xl font-semibold">Tier & Pricing Breakdown</h2>
+        <p>Configure your offering price and (optional) tiers</p>
+      </div>
+      <app-preview-button />
+    </div>
 
     <div class="p-8 py-4 bg-white rounded-3xl mt-5">
       <h2 class="font-semibold mb-4">Tiers</h2>

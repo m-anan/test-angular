@@ -10,14 +10,21 @@ import { FormsModule } from '@angular/forms';
 import { OfferingStore } from '../../store/offer';
 import { FormInputComponent } from '../../shared/form-input/form-input';
 import { APP_CONSTANTS } from '../../core/constants/app.constants';
+import { PreviewButtonComponent } from '../preview-button/preview-button';
 
 @Component({
   selector: 'app-step2-details',
   standalone: true,
-  imports: [CommonModule, FormsModule, FormInputComponent],
+  imports: [CommonModule, FormsModule, FormInputComponent, PreviewButtonComponent],
   template: `
-    <h2 class="text-2xl font-semibold ">Offering Details</h2>
-    <span>Describe your offering’s charachteristics</span>
+    <div class="flex justify-between items-center w-full">
+      <div class="">
+        <h2 class="text-2xl font-semibold ">Offering Details</h2>
+        <span>Describe your offering’s charachteristics</span>
+      </div>
+      <app-preview-button />
+    </div>
+
     <div class="bg-white p-5 rounded-2xl mt-8">
       <h3 class="font-medium">Core Details</h3>
       <div class="flex gap-4">

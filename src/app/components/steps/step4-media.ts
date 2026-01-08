@@ -4,18 +4,24 @@
  * Features: File upload with drag-and-drop, image preview, validation
  */
 
-import { Component, inject, ElementRef, ViewChild } from '@angular/core';
+import { Component, inject, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OfferingStore } from '../../store/offer';
 import { MEDIA_COLORS } from '../../core/constants/app.constants';
+import { PreviewButtonComponent } from '../preview-button/preview-button';
 
 @Component({
   selector: 'app-step4-media',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PreviewButtonComponent],
   template: `
-    <h2 class="text-2xl font-semibold">Images & Media</h2>
-    <span class="text-gray-600">Add images to your offering</span>
+    <div class="flex justify-between items-center w-full">
+      <div class="">
+        <h2 class="text-2xl font-semibold">Images & Media</h2>
+        <span class="text-gray-600">Add images to your offering</span>
+      </div>
+      <app-preview-button />
+    </div>
 
     <div class="mt-8 p-6 rounded-2xl border-2 border-blue-400 bg-white">
       <h3 class="text-lg font-semibold mb-4">Add Images</h3>
@@ -212,6 +218,7 @@ export class Step4MediaComponent {
   @ViewChild('galleryInput') galleryInput!: ElementRef<HTMLInputElement>;
 
   readonly store = inject(OfferingStore);
+  private readonly cdr = inject(ChangeDetectorRef);
   readonly availableColors = MEDIA_COLORS;
 
   // State
@@ -350,10 +357,14 @@ export class Step4MediaComponent {
         this.galleryPreviews.push(result);
         this.store.update({ gallery: [...this.galleryPreviews] });
       }
+
+      // Trigger change detection to update the view immediately
+      this.cdr.detectChanges();
     };
 
     reader.onerror = () => {
       this.errorMessage = 'Failed to read file. Please try again.';
+      this.cdr.detectChanges();
     };
 
     reader.readAsDataURL(file);

@@ -13,6 +13,7 @@ import { Step3TiersComponent } from './step3-tiers';
 import { Step4MediaComponent } from './step4-media';
 import { StepIndicatorComponent, StepConfig } from '../step-indicator/step-indicator.component';
 import { APP_CONSTANTS } from '../../core/constants/app.constants';
+import { OfferingValidationService } from '../../core/services/offering-validation.service';
 
 @Component({
   selector: 'app-stepper',
@@ -52,8 +53,9 @@ import { APP_CONSTANTS } from '../../core/constants/app.constants';
           Previous
         </button>
         <button
-          class="bg-[#D84253] text-white py-2 rounded-xl px-8 hover:bg-[#C23545] transition-colors"
+          class="bg-[#D84253] text-white py-2 rounded-xl px-8 hover:bg-[#C23545] transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-400"
           (click)="onNext()"
+          [disabled]="!canProceed"
         >
           {{ isLastStep ? 'Finish' : 'Continue' }}
         </button>
@@ -63,6 +65,7 @@ import { APP_CONSTANTS } from '../../core/constants/app.constants';
 })
 export class StepperComponent {
   readonly store = inject(OfferingStore);
+  private readonly validationService = inject(OfferingValidationService);
   readonly STEPS = APP_CONSTANTS.STEPS;
 
   readonly stepConfigs: StepConfig[] = [
@@ -84,8 +87,19 @@ export class StepperComponent {
     return this.currentStep === APP_CONSTANTS.STEPS.TOTAL;
   }
 
+  /**
+   * Check if user can proceed to next step
+   * Uses validation service to validate current step
+   */
+  get canProceed(): boolean {
+    return this.validationService.canProceed(this.store.value);
+  }
+
   onNext(): void {
-    this.store.next();
+    // Only proceed if validation passes
+    if (this.canProceed) {
+      this.store.next();
+    }
   }
 
   onPrevious(): void {

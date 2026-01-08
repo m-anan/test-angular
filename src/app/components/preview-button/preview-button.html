@@ -1,0 +1,40 @@
+<button
+  class="2xl:hidden sm:flex bg-[#FC5450] text-white px-4 py-2 rounded-xl shadow-lg gap-2"
+  (click)="open()"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <path
+      d="M18.3333 3.66669H5.66667C4.19391 3.66669 3 4.86059 3 6.33335V15C3 16.4728 4.19391 17.6667 5.66667 17.6667H18.3333C19.8061 17.6667 21 16.4728 21 15V6.33335C21 4.86059 19.8061 3.66669 18.3333 3.66669Z"
+      stroke="#F2F5F9"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M6.33337 21.6667H17.6667"
+      stroke="#F2F5F9"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M16.9213 9.47733C16.2013 8.552 14.6066 7 12 7C9.39332 7 7.79865 8.552 7.07865 9.47867C6.52798 10.1893 6.52798 11.144 7.07865 11.8547C7.79865 12.78 9.39332 14.332 12 14.332C14.6066 14.332 16.2013 12.78 16.9213 11.8533C17.472 11.1427 17.472 10.1893 16.9213 9.47733ZM12 12.6667C10.896 12.6667 9.99998 11.7707 9.99998 10.6667C9.99998 9.56267 10.896 8.66667 12 8.66667C13.104 8.66667 14 9.56267 14 10.6667C14 11.7707 13.104 12.6667 12 12.6667Z"
+      fill="#F2F5F9"
+    />
+  </svg>
+  Preview Card
+</button>
+
+<!-- Overlay -->
+@if (isOpen) {
+<div class="fixed inset-0 z-50 bg-black/40 flex items-center justify-center top-0 left-0">
+  <!-- Popup card -->
+  <div class="w-full max-w-sm bg-white rounded-2xl p-4 relative animate-slide-up z-20">
+    <button class="absolute top-3 right-3 text-gray-500 text-xl" (click)="close()">✕</button>
+
+    <app-preview-card />
+  </div>
+  <div
+    class="fixed inset-0 z-10 bg-black/40 items-center justify-center top-0 left-0 block w-full h-full"
+    (click)="close()"
+  ></div>
+</div>
+}
