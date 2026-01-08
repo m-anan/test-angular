@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OfferingStore } from '../store/offer';
+import { OfferingStore } from '../../store/offer';
 
 @Component({
   selector: 'app-step1-type',
@@ -18,7 +18,7 @@ import { OfferingStore } from '../store/offer';
           <span class="text-[#1A99C3] bg-white p-1 rounded-r-xl flex gap-2 px-3"
             ><svg
               xmlns="http://www.w3.org/2000/svg"
-              width="20"
+              width="16"
               height="20"
               viewBox="0 0 20 20"
               fill="none"

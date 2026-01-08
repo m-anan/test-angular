@@ -1,0 +1,216 @@
+<div class="grid grid-cols-2 gap-6 p-5">
+  <!-- LEFT: Tier Details -->
+  <div>
+    <h3 class="font-semibold mb-2">Tier Details</h3>
+
+    <app-form-input
+      placeholder="Tier Name"
+      [maxLength]="50"
+      [required]="true"
+      [model]="tier.name"
+      (modelChange)="onTierPropertyChange('name', $event)"
+      [counterInside]="true"
+    />
+
+    <div class="mb-6">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-medium">Offering Display Name</h3>
+
+        <label class="flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            [checked]="useDisplayNameOverride"
+            (change)="useDisplayNameOverrideChange.emit($any($event.target).checked)"
+          />
+          Overwrite
+        </label>
+      </div>
+
+      <!-- Read-only name from Step 2 -->
+      @if (!useDisplayNameOverride) {
+      <input
+        class="border p-2 w-full bg-gray-100 text-gray-600"
+        [value]="offeringName"
+        placeholder="[Name of offering added on step 2]"
+        disabled
+      />
+      }
+
+      <!-- Editable override -->
+      @if (useDisplayNameOverride) {
+      <input
+        class="border p-2 w-full"
+        placeholder="Enter custom display name"
+        [value]="displayNameOverride"
+        (input)="displayNameOverrideChange.emit($any($event.target).value)"
+      />
+      }
+    </div>
+
+    <!-- Bullet Points -->
+    @for (bullet of tier.bullets; track $index; let i = $index) {
+    <input
+      class="border p-2 w-full mb-1"
+      [value]="bullet"
+      (input)="onBulletChange(i, $any($event.target).value)"
+    />
+    }
+
+    <button
+      class="text-[#FC5450] border rounded-full border-[#FC5450] p-2 px-6 mt-2"
+      (click)="onAddBullet()"
+    >
+      Add Bullet Point
+    </button>
+  </div>
+
+  <!-- RIGHT: Tier Pricing -->
+  <div>
+    <h3 class="font-semibold mb-2">Tier Pricing</h3>
+
+    <!-- Billing Type Dropdown (Service Only) -->
+    @if (showBillingTypeDropdown) {
+    <div class="mb-3">
+      <label class="block text-sm font-medium mb-1">Main Billing Type</label>
+      <select
+        class="border p-2 w-full rounded"
+        [value]="tier.billingType"
+        (change)="onTierPropertyChange('billingType', $any($event.target).value)"
+      >
+        <option value="project">Per Project</option>
+        <option value="hourly">Hourly</option>
+        <option value="monthly">Monthly Retainer</option>
+      </select>
+    </div>
+    }
+
+    <!-- Price Range Toggle (Service Only) -->
+    @if (showPriceRangeToggle && !tier.requestQuoteOnly) {
+    <label class="flex items-center gap-2 mb-3">
+      <input
+        type="checkbox"
+        [checked]="tier.usePriceRange"
+        (change)="onTierPropertyChange('usePriceRange', $any($event.target).checked)"
+      />
+      <span class="text-sm">Price Range</span>
+    </label>
+    }
+
+    <!-- Pricing Inputs -->
+    @if (!tier.requestQuoteOnly) {
+    <!-- Service with Price Range -->
+    @if (isService && tier.usePriceRange) {
+    <div class="flex gap-2 mb-3">
+      <div class="flex-1">
+        <label class="block text-sm mb-1">Min Price</label>
+        <input
+          type="number"
+          class="border p-2 w-full rounded"
+          placeholder="Min"
+          [value]="tier.minPrice"
+          (input)="onTierPropertyChange('minPrice', $any($event.target).valueAsNumber || undefined)"
+        />
+      </div>
+      <div class="flex-1">
+        <label class="block text-sm mb-1">Max Price</label>
+        <input
+          type="number"
+          class="border p-2 w-full rounded"
+          placeholder="Max"
+          [value]="tier.maxPrice"
+          (input)="onTierPropertyChange('maxPrice', $any($event.target).valueAsNumber || undefined)"
+        />
+      </div>
+    </div>
+    }
+
+    <!-- Fixed Price (Service without range, Product, Subscription) -->
+    @if (!isService || !tier.usePriceRange) {
+    <div class="mb-3">
+      <label class="block text-sm mb-1">Price</label>
+      <input
+        type="number"
+        class="border p-2 w-full rounded"
+        placeholder="Enter price"
+        [value]="tier.price"
+        (input)="onTierPropertyChange('price', $any($event.target).valueAsNumber || undefined)"
+      />
+    </div>
+    }
+
+    <!-- Monthly Duration (Service - Monthly Retainer Only) -->
+    @if (showMonthlyDuration) {
+    <div class="mb-3">
+      <label class="block text-sm mb-1">Number of Months</label>
+      <select
+        class="border p-2 w-full rounded"
+        [value]="tier.monthlyDuration || 1"
+        (change)="onTierPropertyChange('monthlyDuration', +$any($event.target).value)"
+      >
+        @for (month of monthOptions; track month) {
+        <option [value]="month">{{ month }} month{{ month > 1 ? 's' : '' }}</option>
+        }
+      </select>
+    </div>
+    }
+
+    <!-- Yearly Discount (Subscription Only) -->
+    @if (showYearlyDiscount) {
+    <div class="mb-3">
+      <label class="flex items-center gap-2 mb-2">
+        <input
+          type="checkbox"
+          [checked]="tier.enableYearlyDiscount"
+          (change)="onTierPropertyChange('enableYearlyDiscount', $any($event.target).checked)"
+        />
+        <span class="text-sm font-medium">Enable Yearly Discount</span>
+      </label>
+
+      @if (tier.enableYearlyDiscount) {
+      <div class="ml-6">
+        <label class="block text-sm mb-1">Discount Percentage</label>
+        <select
+          class="border p-2 w-full rounded mb-2"
+          [value]="tier.yearlyDiscountPercent || 10"
+          (change)="onTierPropertyChange('yearlyDiscountPercent', +$any($event.target).value)"
+        >
+          @for (discount of discountOptions; track discount) {
+          <option [value]="discount">{{ discount }}%</option>
+          }
+        </select>
+
+        @if (tier.price && tier.yearlyDiscountPercent) {
+        <div class="text-sm text-green-600 font-medium">
+          User Pays: ${{ calculatedYearlyPrice.toFixed(2) }}/year
+        </div>
+        }
+      </div>
+      }
+    </div>
+    } }
+
+    <!-- Request Quote Only -->
+    <label class="flex items-center gap-2 mt-3">
+      <input
+        type="checkbox"
+        [checked]="tier.requestQuoteOnly"
+        (change)="onTierPropertyChange('requestQuoteOnly', $any($event.target).checked)"
+      />
+      <span class="text-sm">Request Quote Only</span>
+    </label>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="flex justify-between mt-4 p-5 border-t border-[#F2F5F9]">
+  <label class="flex items-center gap-2">
+    <input
+      type="checkbox"
+      [checked]="tier.popular"
+      (change)="onTierPropertyChange('popular', $any($event.target).checked)"
+    />
+    Mark as Popular Choice
+  </label>
+
+  <button class="text-red-600" (click)="onDeleteTier()">Delete Tier</button>
+</div>
