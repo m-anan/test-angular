@@ -98,7 +98,7 @@ import { getInputValue } from '../../core/utils/event-helpers';
             @for (tag of tags; track $index; let i = $index) {
             <input
               [id]="'tag-' + i"
-              class="border-2 p-1 !rounded-full min-w-20 px-4 !border-[#678CA7] focus:border-[#1A5885] text-[#1A5885] text-center field-sizing-content"
+              class="border-2 p-1 rounded-full! min-w-20 px-4 border-[#678CA7]! focus:border-[#1A5885] text-[#1A5885] text-center field-sizing-content"
               [value]="tag"
               (input)="onTagChange(i, $event)"
               [attr.aria-label]="'Tag ' + (i + 1)"

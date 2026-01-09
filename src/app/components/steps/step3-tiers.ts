@@ -56,6 +56,7 @@ import { PreviewButtonComponent } from '../preview-button/preview-button';
           <div cdkDropList class="flex gap-3" (cdkDropListDropped)="onTierDrop($event)">
             @for (tier of tiers; track tier.id; let i = $index) {
             <app-tier-tab
+              [popular]="tier.popular"
               [label]="tier.name || 'New Tier'"
               [active]="i === activeTierIndex"
               (tabClick)="activeTierIndex = i"
