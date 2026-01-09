@@ -193,6 +193,7 @@ export class OfferingStore {
       tags: [],
       tiers: [],
       gallery: [],
+      fallbackColor: '#F87171',
     };
   }
 
