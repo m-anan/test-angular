@@ -13,9 +13,9 @@ import { OfferingStore, OfferingType, ProductType } from '../../store/offer';
     <div class="mt-8  p-3 rounded-2xl bg-[#CCE8F3] w-fit">
       <h3 class="text-[#0F7394] font-semibold pb-2">Based on your type of company:</h3>
       <div class="flex gap-4">
-        <div class="flex ">
-          <span class="bg-[#1A99C3] text-white p-1 rounded-l-xl px-3">Company Type</span>
-          <span class="text-[#1A99C3] bg-white p-1 rounded-r-xl flex gap-2 px-3"
+        <div class="flex text-sm items-center">
+          <span class="bg-[#1A99C3] text-white p-2 rounded-l-xl px-3">Company Type</span>
+          <span class="text-[#1A99C3] bg-white p-2 rounded-r-xl flex gap-2 px-3"
             ><svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -49,10 +49,10 @@ import { OfferingStore, OfferingType, ProductType } from '../../store/offer';
         </div>
 
         <div class="flex items-center gap-2">
-          <span class="text-[#0F7394]">Categories:</span>
+          <span class="text-[#0F7394] font-medium">Categories:</span>
           <span
             *ngFor="let category of ['Law', 'Accounting', 'Notary']"
-            class="text-[#0F7394] border border-[#0F7394] rounded-xl p-1 px-3"
+            class="text-[#0F7394] border border-[#0F7394] rounded-xl p-1 px-3 text-sm"
             >{{ category }}</span
           >
         </div>

@@ -34,21 +34,24 @@ interface TierPrice {
       <div class="h-32 mb-2" [style.background]="store.value.fallbackColor"></div>
       }
       <div class="p-4">
-        @if (store.value.useDisplayNameOverride && store.value.displayNameOverride) {
-        <h3 class="font-bold">{{ store.value.displayNameOverride }}</h3>
-        } @else {
-        <h3 class="font-bold">{{ store.value.name }}</h3>
-        }
-        <p class="text-sm">{{ store.value.description }}</p>
+        <h3 class="font-bold text-lg">
+          @if (store.value.useDisplayNameOverride && store.value.displayNameOverride) {
+          {{ store.value.displayNameOverride }}
+          } @else {
+          {{ store.value.name }}
+          }
+        </h3>
+        <p class="text-sm text-[#303030] py-2">{{ store.value.description }}</p>
 
-        <ul class="list-disc ml-4 mt-2">
+        <ul class="list-disc ml-4 mt-2 text-sm text-[#303030]">
           @for (feature of store.value.features; track $index) { @if (feature) {
           <li>{{ feature }}</li>
           } }
         </ul>
-
-        <p class="font-semibold mt-3">{{ priceLabel }}</p>
       </div>
+      <p class="font-semibold mt-3 border-t p-3 text-[#D42727] border-[#F2F5F9]">
+        {{ priceLabel }}
+      </p>
     </div>
   `,
 })
