@@ -101,10 +101,7 @@
 
     <!-- Price Range Toggle (Service Only) -->
     @if (showPriceRangeToggle && !tier.requestQuoteOnly) {
-    <label
-      class="flex items-center gap-2 mb-3"
-      [for]="componentId + '-price-range-checkbox'"
-    >
+    <label class="flex items-center gap-2 mb-3" [for]="componentId + '-price-range-checkbox'">
       <input
         [id]="componentId + '-price-range-checkbox'"
         type="checkbox"
@@ -187,10 +184,7 @@
     <!-- Yearly Discount (Subscription Only) -->
     @if (showYearlyDiscount) {
     <div class="mb-3">
-      <label
-        class="flex items-center gap-2 mb-2"
-        [for]="componentId + '-yearly-discount-checkbox'"
-      >
+      <label class="flex items-center gap-2 mb-2" [for]="componentId + '-yearly-discount-checkbox'">
         <input
           [id]="componentId + '-yearly-discount-checkbox'"
           type="checkbox"
