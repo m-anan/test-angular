@@ -276,7 +276,7 @@
       <app-form-input
         [id]="componentId + '-bullet-' + i"
         [model]="bullet"
-        (onModelChange)="onBulletChange(i, $event)"
+        (modelChange)="onBulletChange(i, $event)"
         [placeholder]="'Bullet point ' + (i + 1)"
         [attr.aria-label]="'Bullet point ' + (i + 1)"
         [counterInside]="true"

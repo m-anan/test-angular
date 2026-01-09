@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OfferingStore, OfferingType, ProductType } from '../../store/offer';
 
@@ -6,6 +6,7 @@ import { OfferingStore, OfferingType, ProductType } from '../../store/offer';
   selector: 'app-step1-type',
   standalone: true,
   imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h2 class="text-2xl font-semibold ">What are you offering?</h2>
     <span>Pick the type that suits your offering the most.</span>

@@ -4,7 +4,7 @@
  * Refactored to use reusable components and constants
  */
 
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OfferingStore } from '../../store/offer';
 import { Step1TypeComponent } from './step1-type';
@@ -26,6 +26,7 @@ import { OfferingValidationService } from '../../core/services/offering-validati
     Step4MediaComponent,
     StepIndicatorComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <!-- Step Progress Indicator -->
     <app-step-indicator [steps]="stepConfigs" [currentStep]="currentStep" />

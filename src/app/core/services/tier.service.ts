@@ -7,6 +7,7 @@
 import { Injectable } from '@angular/core';
 import { Tier, TierTemplate, TierValidationResult } from '../models/tier.model';
 import { APP_CONSTANTS } from '../constants/app.constants';
+import { generateUUID } from '../utils/uuid.utils';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,7 @@ export class TierService {
    */
   createTier(name: string = '', popular: boolean = false): Tier {
     return {
-      id: crypto.randomUUID(),
+      id: generateUUID(),
       name,
       bullets: [],
       billingType: APP_CONSTANTS.DEFAULTS.BILLING_TYPE,
@@ -196,7 +197,7 @@ export class TierService {
   cloneTier(tier: Tier): Tier {
     return {
       ...tier,
-      id: crypto.randomUUID(),
+      id: generateUUID(),
       name: `${tier.name} (Copy)`,
     };
   }

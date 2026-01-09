@@ -199,10 +199,25 @@ export class OfferingStore {
 
   /**
    * Private: Deep freeze object to prevent mutations
+   * Note: In development, this prevents accidental mutations.
+   * For production with complex state, consider using Immer library.
    */
   private deepFreeze<T>(obj: T): Readonly<T> {
-    // In production, you might want to use a library like immer
-    // For now, we'll just return the object as readonly
-    return obj;
+    // Freeze the object itself
+    Object.freeze(obj);
+
+    // Recursively freeze all properties
+    Object.getOwnPropertyNames(obj).forEach((prop) => {
+      const value = (obj as any)[prop];
+      if (
+        value !== null &&
+        (typeof value === 'object' || typeof value === 'function') &&
+        !Object.isFrozen(value)
+      ) {
+        this.deepFreeze(value);
+      }
+    });
+
+    return obj as Readonly<T>;
   }
 }

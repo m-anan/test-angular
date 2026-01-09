@@ -25,16 +25,30 @@
 
 <!-- Overlay -->
 @if (isOpen) {
-<div class="fixed inset-0 z-50 bg-black/40 flex items-center justify-center top-0 left-0">
+<div
+  class="fixed inset-0 z-50 bg-black/40 flex items-center justify-center top-0 left-0"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-title"
+>
   <!-- Popup card -->
   <div class="w-full max-w-sm bg-white rounded-2xl p-4 relative animate-slide-up z-20">
-    <button class="absolute top-3 right-3 text-gray-500 text-xl" (click)="close()">✕</button>
+    <button
+      class="absolute top-3 right-3 text-gray-500 text-xl hover:text-gray-700 transition-colors"
+      (click)="close()"
+      aria-label="Close preview modal"
+      title="Close (Esc)"
+    >
+      ✕
+    </button>
+    <div id="modal-title" class="sr-only">Offering Preview</div>
 
     <app-preview-card />
   </div>
   <div
     class="fixed inset-0 z-10 bg-black/40 items-center justify-center top-0 left-0 block w-full h-full"
     (click)="close()"
+    aria-hidden="true"
   ></div>
 </div>
 }

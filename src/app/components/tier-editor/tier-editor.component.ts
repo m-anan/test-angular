@@ -5,7 +5,7 @@
  * Now supports dynamic pricing UI based on offering type
  */
 
-import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Tier, BillingType } from '../../core/models/tier.model';
@@ -19,12 +19,14 @@ import {
   getSelectValue,
 } from '../../core/utils/event-helpers';
 import { OfferingStore } from '../../store/offer';
+import { TIER_DISCOUNT_OPTIONS, MONTH_OPTIONS } from '../../core/constants/app.constants';
 
 @Component({
   selector: 'app-tier-editor',
   standalone: true,
   imports: [CommonModule, FormsModule, FormInputComponent],
   templateUrl: './tier-editor.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TierEditorComponent {
   private readonly tierService = inject(TierService);
@@ -45,10 +47,9 @@ export class TierEditorComponent {
   private static nextId = 0;
   readonly componentId = `tier-editor-${TierEditorComponent.nextId++}`;
 
-  // Discount percentage options for subscriptions
-  readonly discountOptions = [
-    5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95,
-  ];
+  // Discount percentage options for subscriptions (from constants)
+  readonly discountOptions = TIER_DISCOUNT_OPTIONS;
+  readonly monthOptions = MONTH_OPTIONS;
   readonly store = inject(OfferingStore);
 
   // Type-safe property update methods
@@ -60,9 +61,9 @@ export class TierEditorComponent {
     this.tierChange.emit(updatedTier);
   }
 
-  onBulletChange(index: number, event: Event): void {
+  onBulletChange(index: number, value: string): void {
     const bullets = [...this.tier.bullets];
-    bullets[index] = getInputValue(event);
+    bullets[index] = value;
     this.onTierPropertyChange('bullets', bullets);
   }
 
@@ -143,13 +144,11 @@ export class TierEditorComponent {
     }
     return this.tierService.calculateYearlyPrice(this.tier.price, this.tier.yearlyDiscountPercent);
   }
+
   get yearlyPrice(): number {
     if (!this.tier.price) {
       return 0;
     }
     return this.tier.price * 12;
-  }
-  get monthOptions(): number[] {
-    return Array.from({ length: 12 }, (_, i) => i + 1);
   }
 }

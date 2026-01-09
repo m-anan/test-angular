@@ -4,7 +4,7 @@
  * Refactored for modularity and single responsibility
  */
 
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { OfferingStore, Tier } from '../../store/offer';
@@ -28,6 +28,7 @@ import { PreviewButtonComponent } from '../preview-button/preview-button';
     TierRecommendationComponent,
     PreviewButtonComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="flex justify-between items-center w-full">
       <div class="">

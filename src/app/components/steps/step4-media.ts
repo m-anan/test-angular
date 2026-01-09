@@ -1,10 +1,22 @@
 /**
  * Step 4: Media Component
- * Handles media configuration (thumbnail, gallery images, fallback color)
- * Features: File upload with drag-and-drop, image preview, validation
+ *
+ * Handles media configuration for offerings including:
+ * - Thumbnail image upload with drag-and-drop support
+ * - Gallery images (up to 5 images)
+ * - Fallback color selection when no images are provided
+ * - Real-time image preview
+ * - File validation (type, size, format)
+ *
+ * Features:
+ * - Drag-and-drop file upload
+ * - Multiple file format support (PNG, JPG, WEBP, GIF)
+ * - 5MB file size limit per image
+ * - Base64 image encoding for storage
+ * - OnPush change detection with manual triggering for async operations
  */
 
-import { Component, inject, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, ElementRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OfferingStore } from '../../store/offer';
 import { MEDIA_COLORS } from '../../core/constants/app.constants';
@@ -15,6 +27,7 @@ import { PreviewCardComponent } from '../preview/preview-card';
   selector: 'app-step4-media',
   standalone: true,
   imports: [CommonModule, PreviewCardComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="flex justify-between items-center w-full">
       <div class="">
@@ -365,13 +378,13 @@ export class Step4MediaComponent {
         this.store.update({ gallery: [...this.galleryPreviews] });
       }
 
-      // Trigger change detection to update the view immediately
-      this.cdr.detectChanges();
+      // Trigger change detection for OnPush strategy
+      this.cdr.markForCheck();
     };
 
     reader.onerror = () => {
       this.errorMessage = 'Failed to read file. Please try again.';
-      this.cdr.detectChanges();
+      this.cdr.markForCheck();
     };
 
     reader.readAsDataURL(file);

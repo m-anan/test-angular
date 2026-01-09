@@ -4,7 +4,7 @@
  * Refactored to use store methods instead of direct state manipulation
  */
 
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { OfferingStore } from '../../store/offer';
@@ -17,6 +17,7 @@ import { getInputValue } from '../../core/utils/event-helpers';
   selector: 'app-step2-details',
   standalone: true,
   imports: [CommonModule, FormsModule, FormInputComponent, PreviewButtonComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="flex justify-between items-center w-full">
       <div class="">

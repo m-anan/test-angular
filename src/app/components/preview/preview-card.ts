@@ -4,11 +4,12 @@
  * Refactored to use TierService for price calculations
  */
 
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OfferingStore } from '../../store/offer';
 import { TierService } from '../../core/services/tier.service';
 import { Tier } from '../../core/models/tier.model';
+import { Subscription } from 'rxjs';
 
 /**
  * Interface for tier price tracking
@@ -23,6 +24,7 @@ interface TierPrice {
   selector: 'app-preview-card',
   standalone: true,
   imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="bg-white shadow-xl rounded-xl overflow-hidden">
       @if (store.value.thumbnail) {
@@ -60,9 +62,22 @@ interface TierPrice {
     </div>
   `,
 })
-export class PreviewCardComponent {
+export class PreviewCardComponent implements OnInit, OnDestroy {
   readonly store = inject(OfferingStore);
   private readonly tierService = inject(TierService);
+  private readonly cdr = inject(ChangeDetectorRef);
+  private subscription?: Subscription;
+
+  ngOnInit(): void {
+    // Subscribe to store changes to trigger change detection with OnPush
+    this.subscription = this.store.state$.subscribe(() => {
+      this.cdr.markForCheck();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+  }
 
   /**
    * Computed price label using TierService
@@ -129,7 +144,7 @@ export class PreviewCardComponent {
     return `Starting from $${lowestPrice}${suffix}`;
   }
 
-  private getBillingSuffix(tier: any): string {
+  private getBillingSuffix(tier: Tier): string {
     switch (tier.billingType) {
       case 'hourly':
         return '/hr';
