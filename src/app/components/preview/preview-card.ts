@@ -27,11 +27,11 @@ interface TierPrice {
     <div class="bg-white shadow rounded-xl overflow-hidden">
       @if (store.value.thumbnail) {
       <div
-        class="h-32 bg-cover mb-2"
+        class="h-40 bg-cover mb-2"
         [style.backgroundImage]="'url(' + store.value.thumbnail + ')'"
       ></div>
       } @else {
-      <div class="h-32 mb-2" [style.background]="store.value.fallbackColor"></div>
+      <div class="h-40 mb-2" [style.background]="store.value.fallbackColor"></div>
       }
       <div class="p-4">
         <h3 class="font-bold text-lg">

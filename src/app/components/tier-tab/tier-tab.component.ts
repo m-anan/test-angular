@@ -55,7 +55,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
         width="22"
         height="22"
         viewBox="0 0 22 22"
-        fill="#F0895E"
+        fill="#5b5b5b"
         [ngClass]="{ 'fill-white': active }"
       >
         <path

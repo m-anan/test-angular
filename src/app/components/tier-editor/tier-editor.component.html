@@ -239,6 +239,19 @@
 <!-- Footer -->
 <div class="flex justify-between mt-4 p-5 border-t border-[#F2F5F9]">
   <label class="flex items-center gap-2" [for]="componentId + '-popular-checkbox'">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 22 22"
+      fill="#5B5B5B"
+      class=""
+    >
+      <path
+        d="M19.8947 6.85592L16.9567 3.73168C16.552 3.30133 15.9798 3.05432 15.3865 3.05432H6.61375C6.02049 3.05432 5.44824 3.30133 5.04357 3.73168L2.10559 6.85592C2.10559 6.85592 2.10498 6.85653 2.10437 6.85653C1.39597 7.61272 1.33327 8.76088 1.95574 9.58747L9.28015 19.3116C9.68899 19.8546 10.315 20.1668 10.9984 20.1668H10.9996C11.6829 20.1668 12.3102 19.8552 12.7201 19.3116L20.0445 9.58747C20.6676 8.75978 20.6049 7.61089 19.8947 6.85592ZM15.388 10.4522L13.5363 11.0749L12.9191 12.9395C12.8176 13.2412 12.5377 13.4444 12.2224 13.4444C11.9071 13.4444 11.626 13.2412 11.5257 12.9395L10.9085 11.0749L9.05685 10.4522C8.75729 10.3526 8.55574 10.069 8.55574 9.75161C8.55574 9.4342 8.75741 9.15089 9.05685 9.05128L10.9085 8.42856L11.5257 6.56357C11.7262 5.96016 12.7174 5.96016 12.9179 6.56357L13.5351 8.42856L15.3867 9.05128C15.6862 9.15211 15.8891 9.43408 15.8891 9.75161C15.8891 10.0691 15.6874 10.3526 15.388 10.4522Z"
+      ></path>
+    </svg>
+    Mark as Popular Choice
     <input
       [id]="componentId + '-popular-checkbox'"
       type="checkbox"
@@ -246,10 +259,46 @@
       (change)="onCheckboxChange('popular', $event)"
       aria-label="Mark as popular choice"
     />
-    Mark as Popular Choice
   </label>
 
-  <button type="button" class="text-red-600" (click)="onDeleteTier()" aria-label="Delete tier">
+  <button
+    type="button"
+    class="flex gap-1 text-sm items-center"
+    (click)="onDeleteTier()"
+    aria-label="Delete tier"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="20" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M5.56348 6.33343L8.65148 2.82675C9.18748 2.21342 10.1381 2.21343 10.6648 2.8401L13.6609 6.33343"
+        stroke="#212121"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M15.5889 3.01343L18.4355 6.33341"
+        stroke="#212121"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M18.4357 6.3335L17.7997 18.4802C17.725 19.8936 16.5544 21.0002 15.137 21.0002H8.86507C7.44641 21.0002 6.27707 19.8935 6.20241 18.4802L5.56641 6.3335H18.4357Z"
+        stroke="#212121"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M9.83301 10.3335L10.1663 17.0002"
+        stroke="#212121"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M14.1663 10.3335L13.833 17.0002"
+        stroke="#212121"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
     Delete Tier
   </button>
 </div>

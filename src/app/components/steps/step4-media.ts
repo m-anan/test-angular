@@ -26,12 +26,12 @@ import { PreviewButtonComponent } from '../preview-button/preview-button';
     <div class="mt-8 p-6 rounded-2xl border-2 border-blue-400 bg-white">
       <h3 class="text-lg font-semibold mb-4">Add Images</h3>
 
-      <div class="grid grid-cols-2 gap-6">
+      <div class="grid grid-cols-3 gap-6">
         <!-- Thumbnail Upload -->
-        <div>
+        <div class="col-span-2">
           <label class="block text-sm font-medium mb-2">Thumbnail</label>
           <div
-            class="relative border-2 border-dashed rounded-xl p-8 text-center transition-all cursor-pointer hover:border-blue-500 hover:bg-blue-50"
+            class="relative border-2 border-dashed rounded-xl p-8 text-center transition-all cursor-pointer hover:border-blue-500 hover:bg-blue-50 bg-[#F2F5F9]"
             [class.border-blue-500]="isDraggingThumbnail"
             [class.bg-blue-50]="isDraggingThumbnail"
             [class.border-gray-300]="!isDraggingThumbnail"
@@ -107,7 +107,9 @@ import { PreviewButtonComponent } from '../preview-button/preview-button';
           <div class="space-y-4">
             @for (preview of galleryPreviews; track $index) {
             <!-- Gallery Image Preview -->
-            <div class="relative border-2 border-dashed border-gray-300 rounded-xl p-4 text-center">
+            <div
+              class="relative border-2 border-dashed border-gray-300  rounded-xl p-4 text-center"
+            >
               <div class="relative">
                 <img
                   [src]="preview"
@@ -140,7 +142,7 @@ import { PreviewButtonComponent } from '../preview-button/preview-button';
             <!-- Add More Gallery Images Button -->
             @if (galleryPreviews.length < 5) {
             <div
-              class="relative border-2 border-dashed rounded-xl p-6 text-center transition-all cursor-pointer hover:border-blue-500 hover:bg-blue-50"
+              class="relative border-2 border-dashed rounded-xl p-6 text-center transition-all bg-[#F2F5F9] cursor-pointer hover:border-blue-500 hover:bg-blue-50"
               [class.border-blue-500]="isDraggingGallery"
               [class.bg-blue-50]="isDraggingGallery"
               [class.border-gray-300]="!isDraggingGallery"
@@ -188,7 +190,7 @@ import { PreviewButtonComponent } from '../preview-button/preview-button';
 
       <!-- Fallback Color Section -->
       <div class="mt-6 pt-6 border-t border-gray-200">
-        <h3 class="text-base font-semibold mb-3">No Images? Choose a fallback color:</h3>
+        <h3 class="text-base  mb-3">No Images? Choose a fallback color:</h3>
         <div class="flex gap-3">
           @for (color of availableColors; track color) {
           <div

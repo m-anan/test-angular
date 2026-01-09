@@ -38,8 +38,13 @@ import { PreviewButtonComponent } from '../preview-button/preview-button';
     </div>
 
     <div class="p-8 py-4 bg-white rounded-3xl mt-5">
-      <h2 class="font-semibold mb-4">Tiers</h2>
-
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="font-semibold ">Tiers</h2>
+        <span class="text-sm text-[#303030]">
+          Selected offering type:
+          <span class="text-[#DE768A] capitalize font-medium">{{ offeringType }}</span></span
+        >
+      </div>
       <!-- Tier Recommendation (shown when no tiers exist) -->
       @if (hasTiers === false) {
       <app-tier-recommendation
