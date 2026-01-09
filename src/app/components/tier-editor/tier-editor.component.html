@@ -55,13 +55,13 @@
 
     <!-- Bullet Points -->
     @for (bullet of tier.bullets; track $index; let i = $index) {
-    <input
+    <app-form-input
       [id]="componentId + '-bullet-' + i"
-      class="border p-2 w-full mb-1"
-      [value]="bullet"
-      (input)="onBulletChange(i, $event)"
+      [model]="bullet"
+      (onModelChange)="onBulletChange(i, $event)"
       [placeholder]="'Bullet point ' + (i + 1)"
       [attr.aria-label]="'Bullet point ' + (i + 1)"
+      [counterInside]="true"
     />
     }
 
@@ -78,6 +78,38 @@
   <!-- RIGHT: Tier Pricing -->
   <div>
     <h3 class="font-semibold mb-2">Tier Pricing</h3>
+    <div class="flex justify-between items-center mb-4">
+      <span class="text-xs text-gray-600 bg-[#CCE8F3] p-2 px-3 rounded-full flex gap-2 items-center"
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 18 18"
+          fill="none"
+        >
+          <path
+            d="M9 16.25C13.004 16.25 16.25 13.004 16.25 9C16.25 4.996 13.004 1.75 9 1.75C4.996 1.75 1.75 4.996 1.75 9C1.75 13.004 4.996 16.25 9 16.25Z"
+            stroke="#24799A"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M9 12.75V9.25C9 8.9739 8.7761 8.75 8.5 8.75H7.75"
+            stroke="#24799A"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M9 6.75C8.448 6.75 8 6.301 8 5.75C8 5.199 8.448 4.75 9 4.75C9.552 4.75 10 5.199 10 5.75C10 6.301 9.552 6.75 9 6.75Z"
+            fill="#24799A"
+          />
+        </svg>
+        Pricing type influenced by offering choice
+      </span>
+      <span (click)="onGoToStep1()" class="text-[#24799A] text-xs cursor-pointer"
+        >Adjust offering type
+      </span>
+    </div>
 
     <!-- Billing Type Dropdown (Service Only) -->
     @if (showBillingTypeDropdown) {
@@ -85,17 +117,41 @@
       <label class="block text-sm font-medium mb-1" [for]="componentId + '-billing-type'"
         >Main Billing Type</label
       >
-      <select
-        [id]="componentId + '-billing-type'"
-        class="border p-2 w-full rounded"
-        [value]="tier.billingType"
-        (change)="onSelectChange('billingType', $event)"
-        aria-label="Select billing type"
-      >
-        <option value="project">Per Project</option>
-        <option value="hourly">Hourly</option>
-        <option value="monthly">Monthly Retainer</option>
-      </select>
+
+      <div class="grid grid-cols-3 gap-3 bg-gray-200 p-2 rounded-full text-sm">
+        <button
+          type="button"
+          class="rounded-full transition"
+          [ngClass]="
+            tier.billingType === 'project' ? 'bg-white shadow' : 'bg-transparent text-gray-600'
+          "
+          (click)="onSelectChange('billingType', 'project')"
+        >
+          Per Project
+        </button>
+
+        <button
+          type="button"
+          class="py-2 rounded-full transition"
+          [ngClass]="
+            tier.billingType === 'hourly' ? 'bg-white shadow' : 'bg-transparent text-gray-600'
+          "
+          (click)="onSelectChange('billingType', 'hourly')"
+        >
+          Hourly
+        </button>
+
+        <button
+          type="button"
+          class="py-2 rounded-full transition"
+          [ngClass]="
+            tier.billingType === 'monthly' ? 'bg-white shadow' : 'bg-transparent text-gray-600'
+          "
+          (click)="onSelectChange('billingType', 'monthly')"
+        >
+          Monthly Retainer
+        </button>
+      </div>
     </div>
     }
 
@@ -119,7 +175,7 @@
     @if (isService && tier.usePriceRange) {
     <div class="flex gap-2 mb-3">
       <div class="flex-1">
-        <label class="block text-sm mb-1" [for]="componentId + '-min-price'">Min Price</label>
+        <label class="block text-sm mb-1" [for]="componentId + '-min-price'">From</label>
         <input
           [id]="componentId + '-min-price'"
           type="number"
@@ -131,7 +187,7 @@
         />
       </div>
       <div class="flex-1">
-        <label class="block text-sm mb-1" [for]="componentId + '-max-price'">Max Price</label>
+        <label class="block text-sm mb-1" [for]="componentId + '-max-price'">To</label>
         <input
           [id]="componentId + '-max-price'"
           type="number"
@@ -164,9 +220,6 @@
     <!-- Monthly Duration (Service - Monthly Retainer Only) -->
     @if (showMonthlyDuration) {
     <div class="mb-3">
-      <label class="block text-sm mb-1" [for]="componentId + '-monthly-duration'"
-        >Number of Months</label
-      >
       <select
         [id]="componentId + '-monthly-duration'"
         class="border p-2 w-full rounded"
@@ -175,7 +228,9 @@
         aria-label="Select number of months"
       >
         @for (month of monthOptions; track month) {
-        <option [value]="month">{{ month }} month{{ month > 1 ? 's' : '' }}</option>
+        <option [value]="month">
+          {{ month <= 1 ? '' : month }} month{{ month > 1 ? 's' : '' }}
+        </option>
         }
       </select>
     </div>
@@ -184,7 +239,11 @@
     <!-- Yearly Discount (Subscription Only) -->
     @if (showYearlyDiscount) {
     <div class="mb-3">
-      <label class="flex items-center gap-2 mb-2" [for]="componentId + '-yearly-discount-checkbox'">
+      <label
+        class="flex justify-between items-center gap-2 mb-2"
+        [for]="componentId + '-yearly-discount-checkbox'"
+      >
+        <span class="text-sm font-medium">Enable Yearly Discount</span>
         <input
           [id]="componentId + '-yearly-discount-checkbox'"
           type="checkbox"
@@ -192,29 +251,35 @@
           (change)="onCheckboxChange('enableYearlyDiscount', $event)"
           aria-label="Enable yearly discount"
         />
-        <span class="text-sm font-medium">Enable Yearly Discount</span>
       </label>
 
       @if (tier.enableYearlyDiscount) {
-      <div class="ml-6">
-        <label class="block text-sm mb-1" [for]="componentId + '-discount-percent'"
-          >Discount Percentage</label
-        >
-        <select
-          [id]="componentId + '-discount-percent'"
-          class="border p-2 w-full rounded mb-2"
-          [value]="tier.yearlyDiscountPercent || 10"
-          (change)="onSelectNumberChange('yearlyDiscountPercent', $event)"
-          aria-label="Select discount percentage"
-        >
-          @for (discount of discountOptions; track discount) {
-          <option [value]="discount">{{ discount }}%</option>
-          }
-        </select>
-
+      <div class="flex gap-2">
+        <div class="w-28">
+          <label class="block mb-1 text-[#303030] text-xs" [for]="componentId + '-discount-percent'"
+            >Discount</label
+          >
+          <select
+            [id]="componentId + '-discount-percent'"
+            class="border p-2 w-full rounded mb-2"
+            [value]="tier.yearlyDiscountPercent || 10"
+            (change)="onSelectNumberChange('yearlyDiscountPercent', $event)"
+            aria-label="Select discount percentage"
+          >
+            @for (discount of discountOptions; track discount) {
+            <option [value]="discount">{{ discount }}%</option>
+            }
+          </select>
+        </div>
         @if (tier.price && tier.yearlyDiscountPercent) {
-        <div class="text-sm text-green-600 font-medium" aria-live="polite">
-          User Pays: ${{ calculatedYearlyPrice.toFixed(2) }}/year
+        <div class="flex flex-col font-medium gap-4 text-[#303030] text-xs" aria-live="polite">
+          <span> User Pays:</span
+          ><span
+            ><span class="text-gray-400 line-through">${{ yearlyPrice.toFixed(2) }}</span> ${{
+              calculatedYearlyPrice.toFixed(2)
+            }}
+            per year</span
+          >
         </div>
         }
       </div>

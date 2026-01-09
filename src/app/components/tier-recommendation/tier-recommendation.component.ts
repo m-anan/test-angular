@@ -14,14 +14,35 @@ import { CommonModule } from '@angular/common';
   template: `
     <div class="flex gap-6">
       <!-- Recommended Structure -->
-      <div class="bg-[#CCE8F3] p-6 rounded w-2/3 flex flex-col items-center">
+      <div class="bg-[#CCE8F3] p-6 rounded-xl w-2/3 flex flex-col items-center">
+        <div class="self-start">
+          <span class="text-white p-3 rounded-2xl text-sm bg-[#24799A] flex gap-1 mb-2"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 18 18"
+              fill="none"
+            >
+              <path
+                d="M3.025 5.62298C3.093 5.82698 3.285 5.96498 3.5 5.96498C3.715 5.96498 3.906 5.82698 3.975 5.62298L4.396 4.35998L5.659 3.93898C5.863 3.87098 6.001 3.67998 6.001 3.46498C6.001 3.24998 5.863 3.05898 5.659 2.99098L4.396 2.56998L3.975 1.30698C3.838 0.898977 3.163 0.898977 3.026 1.30698L2.605 2.56998L1.342 2.99098C1.138 3.05898 1 3.24998 1 3.46498C1 3.67998 1.138 3.87098 1.342 3.93898L2.605 4.35998L3.025 5.62298Z"
+                fill="white"
+              />
+              <path
+                d="M16.525 8.80296L11.99 7.00996L10.197 2.47496C9.97002 1.90296 9.02902 1.90296 8.80202 2.47496L7.00902 7.00996L2.47402 8.80296C2.18802 8.91596 1.99902 9.19296 1.99902 9.49996C1.99902 9.80696 2.18702 10.084 2.47402 10.197L7.00902 11.99L8.80202 16.525C8.91502 16.811 9.19202 16.999 9.49902 16.999C9.80602 16.999 10.083 16.811 10.196 16.525L11.989 11.99L16.524 10.197C16.81 10.084 16.999 9.80696 16.999 9.49996C16.999 9.19296 16.812 8.91596 16.525 8.80296Z"
+                fill="white"
+              />
+            </svg>
+            Unita AI</span
+          >
+        </div>
         <h3 class="font-medium mb-3">
           Recommended tier structure for <span class="font-bold">Services</span>:
         </h3>
 
         <div class="flex gap-3 mb-4">
-          <span class="px-4 py-2 bg-white rounded-xl">Starter</span>
-          <span class="px-4 py-2  rounded-xl border flex gap-2 border-red-400 bg-[#FCF4C9]"
+          <span class="px-6 py-2 bg-white rounded-xl">Starter</span>
+          <span class="px-6 py-2  rounded-xl border flex gap-2 border-red-400 bg-[#FCF4C9]"
             >Professional
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +70,7 @@ import { CommonModule } from '@angular/common';
               </defs>
             </svg>
           </span>
-          <span class="px-4 py-2 bg-white rounded-xl">Enterprise</span>
+          <span class="px-6 py-2 bg-white rounded-xl">Enterprise</span>
         </div>
 
         <p class="text-sm text-gray-600 mb-4">

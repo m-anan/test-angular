@@ -24,7 +24,7 @@ interface TierPrice {
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="bg-white shadow rounded-xl overflow-hidden">
+    <div class="bg-white shadow-xl rounded-xl overflow-hidden">
       @if (store.value.thumbnail) {
       <div
         class="h-40 bg-cover mb-2"
@@ -43,11 +43,16 @@ interface TierPrice {
         </h3>
         <p class="text-sm text-[#303030] py-2">{{ store.value.description }}</p>
 
-        <ul class="list-disc ml-4 mt-2 text-sm text-[#303030]">
-          @for (feature of store.value.features; track $index) { @if (feature) {
+        <ul class="list-disc ml-4 my-2 text-sm text-[#303030]">
+          @for (feature of store.value.features | slice:0:3; track $index) { @if (feature) {
           <li>{{ feature }}</li>
           } }
         </ul>
+        @if (store.value.features.length > 3) {
+        <span class="text-xs text-gray-600 p-2 rounded-xl font-medium bg-[#CDE7E4]">
+          +{{ store.value.features.length - 3 }} Tiers</span
+        >
+        }
       </div>
       <p class="font-semibold mt-3 border-t p-3 text-[#D42727] border-[#F2F5F9]">
         {{ priceLabel }}

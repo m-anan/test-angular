@@ -31,7 +31,7 @@ import { PreviewButtonComponent } from '../preview-button/preview-button';
   template: `
     <div class="flex justify-between items-center w-full">
       <div class="">
-        <h2 class="text-xl font-semibold">Tier & Pricing Breakdown</h2>
+        <h2 class="text-2xl font-semibold">Tier & Pricing Breakdown</h2>
         <p>Configure your offering price and (optional) tiers</p>
       </div>
       <app-preview-button />

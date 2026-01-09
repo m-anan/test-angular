@@ -9,201 +9,206 @@ import { CommonModule } from '@angular/common';
 import { OfferingStore } from '../../store/offer';
 import { MEDIA_COLORS } from '../../core/constants/app.constants';
 import { PreviewButtonComponent } from '../preview-button/preview-button';
+import { PreviewCardComponent } from '../preview/preview-card';
 
 @Component({
   selector: 'app-step4-media',
   standalone: true,
-  imports: [CommonModule, PreviewButtonComponent],
+  imports: [CommonModule, PreviewCardComponent],
   template: `
     <div class="flex justify-between items-center w-full">
       <div class="">
         <h2 class="text-2xl font-semibold">Images & Media</h2>
         <span class="text-gray-600">Add images to your offering</span>
       </div>
-      <app-preview-button />
     </div>
+    <div class="flex gap-4">
+      <div class="w-2/3">
+        <div class="mt-8 p-6 rounded-2xl border-2 border-blue-400 bg-white">
+          <h3 class="text-lg font-semibold mb-4">Add Images</h3>
 
-    <div class="mt-8 p-6 rounded-2xl border-2 border-blue-400 bg-white">
-      <h3 class="text-lg font-semibold mb-4">Add Images</h3>
-
-      <div class="grid grid-cols-3 gap-6">
-        <!-- Thumbnail Upload -->
-        <div class="col-span-2">
-          <label class="block text-sm font-medium mb-2">Thumbnail</label>
-          <div
-            class="relative border-2 border-dashed rounded-xl p-8 text-center transition-all cursor-pointer hover:border-blue-500 hover:bg-blue-50 bg-[#F2F5F9]"
-            [class.border-blue-500]="isDraggingThumbnail"
-            [class.bg-blue-50]="isDraggingThumbnail"
-            [class.border-gray-300]="!isDraggingThumbnail"
-            (click)="thumbnailInput.click()"
-            (dragover)="onDragOver($event, 'thumbnail')"
-            (dragleave)="onDragLeave($event, 'thumbnail')"
-            (drop)="onDrop($event, 'thumbnail')"
-          >
-            @if (thumbnailPreview) {
-            <!-- Thumbnail Preview -->
-            <div class="relative">
-              <img
-                [src]="thumbnailPreview"
-                alt="Thumbnail preview"
-                class="w-full h-40 object-cover rounded-lg"
-              />
-              <button
-                type="button"
-                class="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 hover:bg-red-600 transition-colors"
-                (click)="removeThumbnail($event)"
-                title="Remove thumbnail"
+          <div class="grid grid-cols-3 gap-6">
+            <!-- Thumbnail Upload -->
+            <div class="col-span-2">
+              <label class="block text-sm font-medium mb-2">Thumbnail</label>
+              <div
+                class="relative border-2 border-dashed rounded-xl p-8 text-center transition-all cursor-pointer hover:border-blue-500 hover:bg-blue-50 bg-[#F2F5F9]"
+                [class.border-blue-500]="isDraggingThumbnail"
+                [class.bg-blue-50]="isDraggingThumbnail"
+                [class.border-gray-300]="!isDraggingThumbnail"
+                (click)="thumbnailInput.click()"
+                (dragover)="onDragOver($event, 'thumbnail')"
+                (dragleave)="onDragLeave($event, 'thumbnail')"
+                (drop)="onDrop($event, 'thumbnail')"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-4 w-4"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
+                @if (thumbnailPreview) {
+                <!-- Thumbnail Preview -->
+                <div class="relative">
+                  <img
+                    [src]="thumbnailPreview"
+                    alt="Thumbnail preview"
+                    class="w-full h-40 object-cover rounded-lg"
                   />
-                </svg>
-              </button>
-            </div>
-            } @else {
-            <!-- Upload Placeholder -->
-            <div class="flex flex-col items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-12 w-12 text-gray-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
-              <p class="text-sm font-medium text-gray-700">
-                Drop or click to upload Thumbnail Image
-              </p>
-              <p class="text-xs text-gray-500">PNG, JPG and WEBP supported</p>
-            </div>
-            }
-            <input
-              #thumbnailInput
-              type="file"
-              class="hidden"
-              accept="image/png,image/jpeg,image/jpg,image/webp,image/gif"
-              (change)="onFileSelected($event, 'thumbnail')"
-            />
-          </div>
-        </div>
-
-        <!-- Gallery Upload -->
-        <div>
-          <label class="block text-sm font-medium mb-2">More Gallery Images</label>
-          <div class="space-y-4">
-            @for (preview of galleryPreviews; track $index) {
-            <!-- Gallery Image Preview -->
-            <div
-              class="relative border-2 border-dashed border-gray-300  rounded-xl p-4 text-center"
-            >
-              <div class="relative">
-                <img
-                  [src]="preview"
-                  alt="Gallery image {{ $index + 1 }}"
-                  class="w-full h-24 object-cover rounded-lg"
-                />
-                <button
-                  type="button"
-                  class="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1.5 hover:bg-red-600 transition-colors"
-                  (click)="removeGalleryImage($index)"
-                  title="Remove image"
-                >
+                  <button
+                    type="button"
+                    class="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 hover:bg-red-600 transition-colors"
+                    (click)="removeThumbnail($event)"
+                    title="Remove thumbnail"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-4 w-4"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                } @else {
+                <!-- Upload Placeholder -->
+                <div class="flex flex-col items-center gap-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-3 w-3"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
+                    class="h-12 w-12 text-gray-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
                   >
                     <path
-                      fill-rule="evenodd"
-                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                      clip-rule="evenodd"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                     />
                   </svg>
-                </button>
+                  <p class="text-sm font-medium text-gray-700">
+                    Drop or click to upload Thumbnail Image
+                  </p>
+                  <p class="text-xs text-gray-500">PNG, JPG and WEBP supported</p>
+                </div>
+                }
+                <input
+                  #thumbnailInput
+                  type="file"
+                  class="hidden"
+                  accept="image/png,image/jpeg,image/jpg,image/webp,image/gif"
+                  (change)="onFileSelected($event, 'thumbnail')"
+                />
               </div>
             </div>
-            }
 
-            <!-- Add More Gallery Images Button -->
-            @if (galleryPreviews.length < 5) {
-            <div
-              class="relative border-2 border-dashed rounded-xl p-6 text-center transition-all bg-[#F2F5F9] cursor-pointer hover:border-blue-500 hover:bg-blue-50"
-              [class.border-blue-500]="isDraggingGallery"
-              [class.bg-blue-50]="isDraggingGallery"
-              [class.border-gray-300]="!isDraggingGallery"
-              (click)="galleryInput.click()"
-              (dragover)="onDragOver($event, 'gallery')"
-              (dragleave)="onDragLeave($event, 'gallery')"
-              (drop)="onDrop($event, 'gallery')"
-            >
-              <div class="flex flex-col items-center gap-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-8 w-8 text-gray-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+            <!-- Gallery Upload -->
+            <div>
+              <label class="block text-sm font-medium mb-2">More Gallery Images</label>
+              <div class="space-y-4">
+                @for (preview of galleryPreviews; track $index) {
+                <!-- Gallery Image Preview -->
+                <div
+                  class="relative border-2 border-dashed border-gray-300  rounded-xl p-4 text-center"
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  <div class="relative">
+                    <img
+                      [src]="preview"
+                      alt="Gallery image {{ $index + 1 }}"
+                      class="w-full h-24 object-cover rounded-lg"
+                    />
+                    <button
+                      type="button"
+                      class="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1.5 hover:bg-red-600 transition-colors"
+                      (click)="removeGalleryImage($index)"
+                      title="Remove image"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-3 w-3"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                }
+
+                <!-- Add More Gallery Images Button -->
+                @if (galleryPreviews.length < 5) {
+                <div
+                  class="relative border-2 border-dashed rounded-xl p-6 text-center transition-all bg-[#F2F5F9] cursor-pointer hover:border-blue-500 hover:bg-blue-50"
+                  [class.border-blue-500]="isDraggingGallery"
+                  [class.bg-blue-50]="isDraggingGallery"
+                  [class.border-gray-300]="!isDraggingGallery"
+                  (click)="galleryInput.click()"
+                  (dragover)="onDragOver($event, 'gallery')"
+                  (dragleave)="onDragLeave($event, 'gallery')"
+                  (drop)="onDrop($event, 'gallery')"
+                >
+                  <div class="flex flex-col items-center gap-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-8 w-8 text-gray-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      />
+                    </svg>
+                    <p class="text-sm font-medium text-gray-700">Add</p>
+                  </div>
+                  <input
+                    #galleryInput
+                    type="file"
+                    class="hidden"
+                    accept="image/png,image/jpeg,image/jpg,image/webp,image/gif"
+                    (change)="onFileSelected($event, 'gallery')"
                   />
-                </svg>
-                <p class="text-sm font-medium text-gray-700">Add</p>
+                </div>
+                }
               </div>
-              <input
-                #galleryInput
-                type="file"
-                class="hidden"
-                accept="image/png,image/jpeg,image/jpg,image/webp,image/gif"
-                (change)="onFileSelected($event, 'gallery')"
-              />
             </div>
-            }
+          </div>
+          <!-- Error Message -->
+          @if (errorMessage) {
+          <div class="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+            {{ errorMessage }}
+          </div>
+          }
+
+          <!-- Fallback Color Section -->
+          <div class="mt-6 pt-6 border-t border-gray-200">
+            <h3 class="text-base  mb-3">No Images? Choose a fallback color:</h3>
+            <div class="flex gap-3">
+              @for (color of availableColors; track color) {
+              <div
+                class="w-16 h-16 rounded-lg cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
+                [class.ring-4]="color === selectedColor"
+                [class.ring-offset-2]="color === selectedColor"
+                [class.ring-blue-500]="color === selectedColor"
+                [style.background]="color"
+                (click)="onColorSelect(color)"
+                [title]="'Select color ' + color"
+              ></div>
+              }
+            </div>
           </div>
         </div>
       </div>
-
-      <!-- Error Message -->
-      @if (errorMessage) {
-      <div class="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
-        {{ errorMessage }}
-      </div>
-      }
-
-      <!-- Fallback Color Section -->
-      <div class="mt-6 pt-6 border-t border-gray-200">
-        <h3 class="text-base  mb-3">No Images? Choose a fallback color:</h3>
-        <div class="flex gap-3">
-          @for (color of availableColors; track color) {
-          <div
-            class="w-16 h-16 rounded-lg cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
-            [class.ring-4]="color === selectedColor"
-            [class.ring-offset-2]="color === selectedColor"
-            [class.ring-blue-500]="color === selectedColor"
-            [style.background]="color"
-            (click)="onColorSelect(color)"
-            [title]="'Select color ' + color"
-          ></div>
-          }
-        </div>
+      <div class="w-1/3">
+        <app-preview-card />
       </div>
     </div>
   `,

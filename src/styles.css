@@ -5,6 +5,7 @@ input,textarea,select{
     border-radius: 14px;
     background-color: #F8FAFC;
     border-color: #C3CAD8;
+     font-size: 14px;
 }
 label{
     font-size: 14px;
@@ -16,6 +17,7 @@ input[type="checkbox"] {
   -webkit-appearance: none;
   position: relative;
   width: 20px;
+ 
   height: 16px;
   border: 1px solid #212121;
   border-color: #212121;

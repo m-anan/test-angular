@@ -1,16 +1,13 @@
-<div class="flex flex-col mb-2 relative w-full">
-  @if(label){<label class="mb-1 font-medium" [for]="inputId">
+<div class="flex flex-col relative w-full mb-1">
+  @if(label){<label class="mb-1 font-medium text-[#303030]" [for]="inputId">
     {{ label }}
-    @if (required) {
-    <span class="text-red-500">*</span>
-    }
   </label>
   }
   <!-- Input wrapper for absolute positioning -->
   <div class="relative">
     <input
       [id]="inputId"
-      class="border p-2 w-full rounded pr-16"
+      class="border p-2 w-full rounded pr-16 text-sm"
       [class.border-red-500]="isInvalid"
       [placeholder]="placeholder"
       [value]="model"
@@ -36,7 +33,7 @@
   <!-- Counter BELOW -->
   @if (!counterInside) {<span
     [id]="inputId + '-counter'"
-    class="text-sm self-end text-gray-500 mt-1"
+    class="text-xs self-end text-gray-500 mt-1"
     aria-live="polite"
   >
     {{ count }}/{{ maxLength }} </span

@@ -18,6 +18,7 @@ import {
   getNumberValue,
   getSelectValue,
 } from '../../core/utils/event-helpers';
+import { OfferingStore } from '../../store/offer';
 
 @Component({
   selector: 'app-tier-editor',
@@ -48,6 +49,7 @@ export class TierEditorComponent {
   readonly discountOptions = [
     5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95,
   ];
+  readonly store = inject(OfferingStore);
 
   // Type-safe property update methods
   onTierPropertyChange(
@@ -76,8 +78,8 @@ export class TierEditorComponent {
     this.onTierPropertyChange(property, getNumberValue(event));
   }
 
-  onSelectChange(property: keyof Tier, event: Event): void {
-    this.onTierPropertyChange(property, getSelectValue(event) as BillingType);
+  onSelectChange<T extends keyof Tier>(property: T, value: Tier[T]): void {
+    this.onTierPropertyChange(property, value);
   }
 
   onSelectNumberChange(property: keyof Tier, event: Event): void {
@@ -100,7 +102,9 @@ export class TierEditorComponent {
   onDeleteTier(): void {
     this.deleteTier.emit();
   }
-
+  onGoToStep1(): void {
+    this.store.goToStep(1);
+  }
   get displayName(): string {
     return this.useDisplayNameOverride ? this.displayNameOverride || '' : this.offeringName;
   }
@@ -139,7 +143,12 @@ export class TierEditorComponent {
     }
     return this.tierService.calculateYearlyPrice(this.tier.price, this.tier.yearlyDiscountPercent);
   }
-
+  get yearlyPrice(): number {
+    if (!this.tier.price) {
+      return 0;
+    }
+    return this.tier.price * 12;
+  }
   get monthOptions(): number[] {
     return Array.from({ length: 12 }, (_, i) => i + 1);
   }
