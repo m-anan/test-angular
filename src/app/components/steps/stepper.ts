@@ -47,7 +47,7 @@ import { OfferingValidationService } from '../../core/services/offering-validati
       class="flex justify-between max-sm:flex-wrap-reverse items-center mt-6 bg-white rounded-2xl py-2 px-2"
     >
       <span class="px-8 cursor-pointer hover:text-red-500 transition-colors">Cancel</span>
-      <div class="flex gap-4">
+      <div class="flex max-sm:flex-wrap gap-4">
         <button
           class="border rounded-xl px-8 py-2 hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           (click)="onPrevious()"

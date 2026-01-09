@@ -142,7 +142,7 @@ import { getInputValue } from '../../core/utils/event-helpers';
       </div>
     </div>
     <div class="bg-white p-5 rounded-2xl mt-8  ">
-      <div class="flex gap-8 items-center w-full">
+      <div class="flex max-sm:flex-wrap gap-8 items-center w-full">
         <h2 class="font-semibold ">Description</h2>
         <span
           class="text-xs text-gray-600 bg-[#CCE8F3] p-2 px-3 rounded-full flex gap-2 items-center "

@@ -38,8 +38,8 @@ import { PreviewButtonComponent } from '../preview-button/preview-button';
       <app-preview-button />
     </div>
 
-    <div class="p-8 py-4 bg-white rounded-3xl mt-5">
-      <div class="flex justify-between items-center mb-4">
+    <div class="p-8 max-sm:p-4 py-4 bg-white rounded-3xl mt-5">
+      <div class="flex max-sm:flex-wrap gap-2 justify-between items-center mb-4">
         <h2 class="font-semibold ">Tiers</h2>
         <span class="text-sm text-[#303030]">
           Selected offering type:
@@ -59,7 +59,11 @@ import { PreviewButtonComponent } from '../preview-button/preview-button';
       <div class="border border-[#F2F5F9] overflow-hidden rounded-3xl">
         <!-- Tier Tabs -->
         <div class="bg-[#F2F5F9] p-2">
-          <div cdkDropList class="flex gap-3" (cdkDropListDropped)="onTierDrop($event)">
+          <div
+            cdkDropList
+            class="flex gap-3 overflow-x-auto"
+            (cdkDropListDropped)="onTierDrop($event)"
+          >
             @for (tier of tiers; track tier.id; let i = $index) {
             <app-tier-tab
               [popular]="tier.popular"

@@ -55,7 +55,7 @@
     <div class="pt-5">
       <div>
         <h3 class="font-semibold mb-2">Tier Pricing</h3>
-        <div class="flex justify-between items-center mb-4">
+        <div class="flex max-sm:flex-wrap justify-between items-center mb-4">
           <span
             class="text-xs text-gray-600 bg-[#CCE8F3] p-2 px-3 rounded-full flex gap-2 items-center"
             ><svg
@@ -96,7 +96,9 @@
             >Main Billing Type</label
           >
 
-          <div class="grid grid-cols-3 gap-3 bg-gray-200 p-2 rounded-full text-sm">
+          <div
+            class="grid grid-cols-3 max-sm:grid-cols-1 gap-3 bg-gray-200 p-2 max-sm:rounded-2xl rounded-full text-sm"
+          >
             <button
               type="button"
               class="rounded-full transition"
@@ -295,7 +297,7 @@
 
     <!-- Request Quote Only -->
     <div class="pt-5 px-4">
-      <span class="text-xs flex gap-2 items-center">
+      <span class="text-xs flex max-sm:flex-wrap gap-2 items-center">
         <span class="text-white p-3 rounded-2xl text-sm bg-[#24799A] flex gap-1 mb-2 flex-none"
           ><svg
             xmlns="http://www.w3.org/2000/svg"
@@ -338,7 +340,7 @@
 </div>
 
 <!-- Footer -->
-<div class="flex justify-between mt-4 p-5 border-t border-[#F2F5F9]">
+<div class="flex max-sm:flex-wrap justify-between mt-4 p-5 border-t border-[#F2F5F9]">
   <label class="flex items-center gap-2" [for]="componentId + '-popular-checkbox'">
     <svg
       xmlns="http://www.w3.org/2000/svg"
