@@ -1,11 +1,11 @@
 <div class="flex flex-col mb-2 relative w-full">
-  <label class="mb-1 font-medium">
+  @if(label){<label class="mb-1 font-medium">
     {{ label }}
     @if (required) {
     <span class="text-red-500">*</span>
     }
   </label>
-
+  }
   <!-- Input wrapper for absolute positioning -->
   <div class="relative">
     <input

@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Tier } from '../../core/models/tier.model';
 import { OfferingType } from '../../core/models/offering.model';
-import { FormInputComponent } from '../../shared/form-input/form-input';
+import { FormInputComponent } from '../shared/form-input/form-input';
 import { TierService } from '../../core/services/tier.service';
 
 @Component({

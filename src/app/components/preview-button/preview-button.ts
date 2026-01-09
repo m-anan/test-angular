@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PreviewCardComponent } from '../../preview/preview-card';
+import { PreviewCardComponent } from '../preview/preview-card';
 
 @Component({
   selector: 'app-preview-button',

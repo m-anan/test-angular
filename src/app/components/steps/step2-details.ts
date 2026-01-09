@@ -8,7 +8,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { OfferingStore } from '../../store/offer';
-import { FormInputComponent } from '../../shared/form-input/form-input';
+import { FormInputComponent } from '../shared/form-input/form-input';
 import { APP_CONSTANTS } from '../../core/constants/app.constants';
 import { PreviewButtonComponent } from '../preview-button/preview-button';
 
@@ -81,7 +81,7 @@ import { PreviewButtonComponent } from '../preview-button/preview-button';
     <div class="bg-white p-5 rounded-2xl mt-8  ">
       <h2 class="font-semibold ">Description</h2>
       <div class="  mt-3 flex gap-4">
-        <div>
+        <div class="w-1/2">
           <label>Offering Description</label>
           <textarea
             class="border p-2 w-full"

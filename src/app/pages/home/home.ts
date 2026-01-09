@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { StepperComponent } from '../../components/steps/stepper';
-import { PreviewCardComponent } from '../../preview/preview-card';
+import { PreviewCardComponent } from '../../components/preview/preview-card';
 import { PreviewButtonComponent } from '../../components/preview-button/preview-button';
 
 @Component({

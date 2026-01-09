@@ -6,8 +6,8 @@
 
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OfferingStore } from '../store/offer';
-import { TierService } from '../core/services/tier.service';
+import { OfferingStore } from '../../store/offer';
+import { TierService } from '../../core/services/tier.service';
 
 @Component({
   selector: 'app-preview-card',

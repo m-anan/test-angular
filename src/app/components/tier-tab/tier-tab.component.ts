@@ -16,15 +16,15 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     <button
       cdkDrag
       (click)="tabClick.emit()"
-      class="px-6 py-3 rounded-2xl cursor-move select-none flex items-center gap-2 transition-colors"
-      [class.bg-red-500]="active"
+      class="px-8 py-3 rounded-2xl cursor-move select-none flex items-center gap-1 transition-colors"
+      [class.bg-[#FC5450]]="active"
       [class.text-white]="active"
       [class.bg-white]="!active"
       cdkDragLockAxis="x"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="24"
+        width="20"
         height="24"
         viewBox="0 0 24 24"
         fill="black"
@@ -58,4 +58,3 @@ export class TierTabComponent {
   @Input() active = false;
   @Output() tabClick = new EventEmitter<void>();
 }
-
