@@ -16,7 +16,14 @@
  * - OnPush change detection with manual triggering for async operations
  */
 
-import { Component, inject, ElementRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  inject,
+  ElementRef,
+  ViewChild,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OfferingStore } from '../../store/offer';
 import { MEDIA_COLORS } from '../../core/constants/app.constants';
@@ -35,14 +42,14 @@ import { PreviewCardComponent } from '../preview/preview-card';
         <span class="text-gray-600">Add images to your offering</span>
       </div>
     </div>
-    <div class="flex gap-4">
-      <div class="w-2/3">
+    <div class="flex max-md:flex-wrap gap-4">
+      <div class="md:w-2/3">
         <div class="mt-8 p-6 rounded-2xl border-2 border-blue-400 bg-white">
           <h3 class="text-lg font-semibold mb-4">Add Images</h3>
 
-          <div class="grid grid-cols-3 gap-6">
+          <div class="grid grid-cols-3 max-sm:grid-cols-1 gap-6">
             <!-- Thumbnail Upload -->
-            <div class="col-span-2">
+            <div class="md:col-span-2">
               <label class="block text-sm font-medium mb-2">Thumbnail</label>
               <div
                 class="relative border-2 border-dashed rounded-xl p-8 text-center transition-all cursor-pointer hover:border-blue-500 hover:bg-blue-50 bg-[#F2F5F9]"
@@ -204,7 +211,7 @@ import { PreviewCardComponent } from '../preview/preview-card';
           <!-- Fallback Color Section -->
           <div class="mt-6 pt-6 border-t border-gray-200">
             <h3 class="text-base  mb-3">No Images? Choose a fallback color:</h3>
-            <div class="flex gap-3">
+            <div class="flex max-sm:flex-wrap gap-3">
               @for (color of availableColors; track color) {
               <div
                 class="w-16 h-16 rounded-lg cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
@@ -220,7 +227,7 @@ import { PreviewCardComponent } from '../preview/preview-card';
           </div>
         </div>
       </div>
-      <div class="w-1/3">
+      <div class="md:w-1/3 max-sm:w-full">
         <app-preview-card />
       </div>
     </div>

@@ -12,8 +12,8 @@ import { OfferingStore, OfferingType, ProductType } from '../../store/offer';
     <span>Pick the type that suits your offering the most.</span>
 
     <div class="mt-8  p-3 rounded-2xl bg-[#CCE8F3] w-fit">
-      <h3 class="text-[#0F7394] font-semibold pb-2">Based on your type of company:</h3>
-      <div class="flex gap-4">
+      <h3 class="text-[#0F7394] font-semibold pb-2 ">Based on your type of company:</h3>
+      <div class="flex gap-4 max-sm:flex-wrap">
         <div class="flex text-sm items-center">
           <span class="bg-[#1A99C3] text-white p-2 rounded-l-xl px-3">Company Type</span>
           <span class="text-[#1A99C3] bg-white p-2 rounded-r-xl flex gap-2 px-3"
@@ -49,7 +49,7 @@ import { OfferingStore, OfferingType, ProductType } from '../../store/offer';
           >
         </div>
 
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 max-sm:flex-wrap">
           <span class="text-[#0F7394] font-medium">Categories:</span>
           <span
             *ngFor="let category of ['Law', 'Accounting', 'Notary']"
@@ -80,7 +80,7 @@ import { OfferingStore, OfferingType, ProductType } from '../../store/offer';
     >
     <div class="mt-8 bg-white p-8 rounded-t-2xl border-b border-gray-200 ">
       <h3 class="text-lg font-semibold ">Pick Offering Type</h3>
-      <div class="grid grid-cols-3 gap-4 pt-4 relative">
+      <div class="grid grid-cols-3 max-sm:grid-cols-1 gap-4 pt-4 relative">
         <button
           class="{{ buttonStyle }}"
           [ngClass]="{
@@ -116,8 +116,8 @@ import { OfferingStore, OfferingType, ProductType } from '../../store/offer';
           >
           <span class="text-sm text-[#303030]">Goods to sell, physical or digital</span>
         </button>
-        <div>
-          <span class="text-sm text-[#F0895E] absolute -top-3 ">Suggested!</span>
+        <div class="relative">
+          <span class="text-sm text-[#F0895E] absolute -top-5 ">Suggested!</span>
           <button
             class="{{ buttonStyle }}"
             [ngClass]="{

@@ -30,7 +30,7 @@ import { PreviewButtonComponent } from '../preview-button/preview-button';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="flex justify-between items-center w-full">
+    <div class="flex max-sm:flex-wrap justify-between items-center w-full">
       <div class="">
         <h2 class="text-2xl font-semibold">Tier & Pricing Breakdown</h2>
         <p>Configure your offering price and (optional) tiers</p>

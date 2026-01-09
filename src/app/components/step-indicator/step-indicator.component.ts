@@ -23,7 +23,7 @@ export interface StepConfig {
       @for (step of steps; track step.number) {
       <div class="z-10 flex flex-col items-center">
         <div
-          class="w-16 h-16 rounded-full flex items-center justify-center text-[#909090] z-20 text-sm transition-colors"
+          class="w-16 h-16 max-sm:w-10 max-sm:h-10 rounded-full flex items-center justify-center text-[#909090] z-20 text-sm transition-colors"
           [class.bg-[#DE768A]]="currentStep >= step.number"
           [class.bg-[#F0D5D1]]="currentStep < step.number"
         >

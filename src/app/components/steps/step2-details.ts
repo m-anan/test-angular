@@ -19,7 +19,7 @@ import { getInputValue } from '../../core/utils/event-helpers';
   imports: [CommonModule, FormsModule, FormInputComponent, PreviewButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="flex justify-between items-center w-full">
+    <div class="flex justify-between max-sm:flex-wrap items-center w-full">
       <div class="">
         <h2 class="text-2xl font-semibold ">Offering Details</h2>
         <span>Describe your offering's characteristics</span>
@@ -28,11 +28,12 @@ import { getInputValue } from '../../core/utils/event-helpers';
     </div>
 
     <div class="bg-white p-5 rounded-2xl mt-8">
-      <div class="flex justify-between items-center mb-4">
+      <div class="flex justify-between max-sm:flex-wrap items-center mb-4">
         <h3 class="font-semibold ">Core Details</h3>
         <span
           class="text-xs text-gray-600 bg-[#CCE8F3] p-2 px-3 rounded-full flex gap-2 items-center w-auto"
-          ><svg
+        >
+          <svg
             xmlns="http://www.w3.org/2000/svg"
             width="18"
             height="18"
@@ -59,8 +60,8 @@ import { getInputValue } from '../../core/utils/event-helpers';
           These details will show on the card</span
         >
       </div>
-      <div class="flex gap-2 gap-x-4">
-        <div class="w-1/2">
+      <div class="flex max-sm:flex-wrap gap-2 gap-x-4">
+        <div class="md:w-1/2 max-sm:w-full">
           <app-form-input
             label="Offering Name"
             placeholder="Insert name..."
@@ -80,7 +81,7 @@ import { getInputValue } from '../../core/utils/event-helpers';
           >
           </app-form-input>
         </div>
-        <div class="w-1/2 flex flex-col ">
+        <div class="md:w-1/2 flex flex-col ">
           <label class="font-medium"
             >Key Features
             <span class="font-light text-gray-600">(shown as bullet points)</span></label
@@ -101,7 +102,7 @@ import { getInputValue } from '../../core/utils/event-helpers';
           @if(i==2&&features.length>3){
           <hr class="my-2 border-dashed border-[#C3CAD8]" />
           } }
-          <div class="flex gap-2 items-center mt-3">
+          <div class="flex max-sm:flex-wrap gap-2 items-center mt-3">
             <button
               (click)="onAddFeature()"
               class="border p-2 rounded-full border-[#D84253] text-[#D84253] px-4 w-fit  text-sm flex-none"
@@ -172,8 +173,8 @@ import { getInputValue } from '../../core/utils/event-helpers';
           Can be added or edited later from the Offering’s page</span
         >
       </div>
-      <div class="  mt-3 flex gap-4">
-        <div class="w-1/2">
+      <div class="  mt-3 flex max-sm:flex-wrap gap-4">
+        <div class="md:w-1/2 max-sm:w-full">
           <label for="offering-description">Offering Description</label>
           <textarea
             id="offering-description"
@@ -185,7 +186,7 @@ import { getInputValue } from '../../core/utils/event-helpers';
         </div>
         <div>
           <h3 class="text-sm">Tags</h3>
-          <div class="flex gap-2">
+          <div class="flex flex-wrap gap-2">
             @for (tag of tags; track $index; let i = $index) {
             <input
               [id]="'tag-' + i"

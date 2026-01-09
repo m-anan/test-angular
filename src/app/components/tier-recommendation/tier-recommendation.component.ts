@@ -12,9 +12,9 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="flex gap-6">
+    <div class="flex max-sm:flex-wrap justify-center gap-6">
       <!-- Recommended Structure -->
-      <div class="bg-[#CCE8F3] p-6 rounded-xl w-2/3 flex flex-col items-center">
+      <div class="bg-[#CCE8F3] p-6 rounded-xl md:w-2/3 flex flex-col items-center">
         <div class="self-start">
           <span class="text-white p-3 rounded-2xl text-sm bg-[#24799A] flex gap-1 mb-2"
             ><svg
@@ -40,7 +40,7 @@ import { CommonModule } from '@angular/common';
           Recommended tier structure for <span class="font-bold">Services</span>:
         </h3>
 
-        <div class="flex gap-3 mb-4">
+        <div class="flex max-sm:flex-wrap max-sm:justify-center gap-3 mb-4">
           <span class="px-6 py-2 bg-white rounded-xl">Starter</span>
           <span class="px-6 py-2  rounded-xl border flex gap-2 border-red-400 bg-[#FCF4C9]"
             >Professional
@@ -73,7 +73,7 @@ import { CommonModule } from '@angular/common';
           <span class="px-6 py-2 bg-white rounded-xl">Enterprise</span>
         </div>
 
-        <p class="text-sm text-gray-600 mb-4">
+        <p class="text-sm text-gray-600 mb-4 text-center">
           Service packages based on scope, deliverables, and support level.
         </p>
 
@@ -87,7 +87,7 @@ import { CommonModule } from '@angular/common';
 
       <!-- Build Own -->
       <div
-        class="border-2 border-dashed border-[#BCBCBC] rounded p-6 w-1/3 flex flex-col gap-2 items-center justify-center"
+        class="border-2 border-dashed border-[#BCBCBC] rounded p-6 md:w-1/3 max-sm:w-full flex flex-col gap-2 items-center justify-center"
       >
         <span class="text-xl">Build your own:</span>
         <button

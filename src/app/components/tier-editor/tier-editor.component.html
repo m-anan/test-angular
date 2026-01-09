@@ -1,8 +1,8 @@
 <div class="">
   <h3 class="font-semibold mb-2 p-5">Tier Details</h3>
   <!-- LEFT: Tier Details -->
-  <div class="grid grid-cols-2 gap-6 px-5">
-    <div class="mb-6 border-r border-[#F2F5F9] h-full pr-4 pt-5">
+  <div class="grid grid-cols-2 max-sm:grid-cols-1 md:gap-6 px-5">
+    <div class="mb-6 md:border-r border-[#F2F5F9] h-full md:pr-4 pt-5">
       <app-form-input
         placeholder="Tier Name"
         label="Tier Name"
@@ -269,7 +269,7 @@
     </div>
   </div>
   <!-- Left: Tier Pricing -->
-  <div class="grid grid-cols-2 gap-6 border-t border-[#F2F5F9]">
+  <div class="grid grid-cols-2 max-sm:grid-cols-1 md:gap-6 md:border-t border-[#F2F5F9]">
     <div class="border-r border-[#F2F5F9] px-5 pt-5">
       <!-- Bullet Points -->
       @for (bullet of tier.bullets; track $index; let i = $index) {
