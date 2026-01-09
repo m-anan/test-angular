@@ -8,10 +8,16 @@
 import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Tier } from '../../core/models/tier.model';
+import { Tier, BillingType } from '../../core/models/tier.model';
 import { OfferingType } from '../../core/models/offering.model';
 import { FormInputComponent } from '../shared/form-input/form-input';
 import { TierService } from '../../core/services/tier.service';
+import {
+  getInputValue,
+  getCheckboxValue,
+  getNumberValue,
+  getSelectValue,
+} from '../../core/utils/event-helpers';
 
 @Component({
   selector: 'app-tier-editor',
@@ -34,20 +40,57 @@ export class TierEditorComponent {
   @Output() addBullet = new EventEmitter<void>();
   @Output() deleteTier = new EventEmitter<void>();
 
+  // Generate unique ID for accessibility
+  private static nextId = 0;
+  readonly componentId = `tier-editor-${TierEditorComponent.nextId++}`;
+
   // Discount percentage options for subscriptions
   readonly discountOptions = [
     5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95,
   ];
 
-  onTierPropertyChange(property: keyof Tier, value: any): void {
+  // Type-safe property update methods
+  onTierPropertyChange(
+    property: keyof Tier,
+    value: string | number | boolean | string[] | BillingType | undefined
+  ): void {
     const updatedTier = { ...this.tier, [property]: value };
     this.tierChange.emit(updatedTier);
   }
 
-  onBulletChange(index: number, value: string): void {
+  onBulletChange(index: number, event: Event): void {
     const bullets = [...this.tier.bullets];
-    bullets[index] = value;
+    bullets[index] = getInputValue(event);
     this.onTierPropertyChange('bullets', bullets);
+  }
+
+  onCheckboxChange(property: keyof Tier, event: Event): void {
+    this.onTierPropertyChange(property, getCheckboxValue(event));
+  }
+
+  onInputChange(property: keyof Tier, event: Event): void {
+    this.onTierPropertyChange(property, getInputValue(event));
+  }
+
+  onNumberInputChange(property: keyof Tier, event: Event): void {
+    this.onTierPropertyChange(property, getNumberValue(event));
+  }
+
+  onSelectChange(property: keyof Tier, event: Event): void {
+    this.onTierPropertyChange(property, getSelectValue(event) as BillingType);
+  }
+
+  onSelectNumberChange(property: keyof Tier, event: Event): void {
+    const value = getSelectValue(event);
+    this.onTierPropertyChange(property, +value);
+  }
+
+  onDisplayNameOverrideCheckboxChange(event: Event): void {
+    this.useDisplayNameOverrideChange.emit(getCheckboxValue(event));
+  }
+
+  onDisplayNameOverrideInputChange(event: Event): void {
+    this.displayNameOverrideChange.emit(getInputValue(event));
   }
 
   onAddBullet(): void {

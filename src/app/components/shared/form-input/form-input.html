@@ -1,5 +1,5 @@
 <div class="flex flex-col mb-2 relative w-full">
-  @if(label){<label class="mb-1 font-medium">
+  @if(label){<label class="mb-1 font-medium" [for]="inputId">
     {{ label }}
     @if (required) {
     <span class="text-red-500">*</span>
@@ -9,24 +9,43 @@
   <!-- Input wrapper for absolute positioning -->
   <div class="relative">
     <input
+      [id]="inputId"
       class="border p-2 w-full rounded pr-16"
+      [class.border-red-500]="isInvalid"
       [placeholder]="placeholder"
       [value]="model"
       [attr.maxLength]="maxLength"
-      (input)="onInput($any($event.target).value)"
+      [attr.aria-required]="required"
+      [attr.aria-invalid]="isInvalid"
+      [attr.aria-describedby]="counterInside ? inputId + '-counter' : null"
+      (input)="onInput($event)"
     />
 
     <!-- Counter INSIDE -->
     @if (counterInside) {
-    <span class="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-400">
+    <span
+      [id]="inputId + '-counter'"
+      class="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-400"
+      aria-live="polite"
+    >
       {{ count }}/{{ maxLength }}
     </span>
     }
   </div>
 
   <!-- Counter BELOW -->
-
-  @if (!counterInside) {<span class="text-sm self-end text-gray-500 mt-1">
+  @if (!counterInside) {<span
+    [id]="inputId + '-counter'"
+    class="text-sm self-end text-gray-500 mt-1"
+    aria-live="polite"
+  >
     {{ count }}/{{ maxLength }} </span
   >}
+
+  <!-- Error Message -->
+  @if (errorMessage) {
+  <div class="text-sm text-red-600 mt-1" role="alert" aria-live="polite">
+    {{ errorMessage }}
+  </div>
+  }
 </div>

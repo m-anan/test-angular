@@ -11,6 +11,7 @@ import { OfferingStore } from '../../store/offer';
 import { FormInputComponent } from '../shared/form-input/form-input';
 import { APP_CONSTANTS } from '../../core/constants/app.constants';
 import { PreviewButtonComponent } from '../preview-button/preview-button';
+import { getInputValue } from '../../core/utils/event-helpers';
 
 @Component({
   selector: 'app-step2-details',
@@ -20,7 +21,7 @@ import { PreviewButtonComponent } from '../preview-button/preview-button';
     <div class="flex justify-between items-center w-full">
       <div class="">
         <h2 class="text-2xl font-semibold ">Offering Details</h2>
-        <span>Describe your offering’s charachteristics</span>
+        <span>Describe your offering's characteristics</span>
       </div>
       <app-preview-button />
     </div>
@@ -82,11 +83,13 @@ import { PreviewButtonComponent } from '../preview-button/preview-button';
       <h2 class="font-semibold ">Description</h2>
       <div class="  mt-3 flex gap-4">
         <div class="w-1/2">
-          <label>Offering Description</label>
+          <label for="offering-description">Offering Description</label>
           <textarea
+            id="offering-description"
             class="border p-2 w-full"
-            [(ngModel)]="store.value.description"
-            (input)="onDescriptionChange($any($event.target).value)"
+            [value]="store.value.description"
+            (input)="onDescriptionChange($event)"
+            aria-label="Offering description"
           ></textarea>
         </div>
         <div>
@@ -94,14 +97,18 @@ import { PreviewButtonComponent } from '../preview-button/preview-button';
           <div class="flex gap-2">
             @for (tag of tags; track $index; let i = $index) {
             <input
+              [id]="'tag-' + i"
               class="border-2 p-1 !rounded-full min-w-20 px-4 !border-[#678CA7] focus:border-[#1A5885] text-[#1A5885] text-center field-sizing-content"
               [value]="tag"
-              (input)="onTagChange(i, $any($event.target).value)"
+              (input)="onTagChange(i, $event)"
+              [attr.aria-label]="'Tag ' + (i + 1)"
             />
             }
             <button
+              type="button"
               class="border p-1 rounded-full w-10 bg-[#1A5885] text-white"
               (click)="onAddTag()"
+              aria-label="Add tag"
             >
               +
             </button>
@@ -140,9 +147,14 @@ export class Step2DetailsComponent {
   onNameChange(value: string): void {
     this.store.update({ name: value });
   }
-  onDescriptionChange(value: string): void {
-    this.store.update({ description: value });
+
+  /**
+   * Updates the description
+   */
+  onDescriptionChange(event: Event): void {
+    this.store.update({ description: getInputValue(event) });
   }
+
   /**
    * Updates the tagline
    */
@@ -163,9 +175,14 @@ export class Step2DetailsComponent {
   onFeatureChange(index: number, value: string): void {
     this.store.updateFeature(index, value);
   }
-  removeFeature(index: number) {
-    this.store.removeFeature(index); // removes 1 item at this index
+
+  /**
+   * Removes a feature at specific index
+   */
+  removeFeature(index: number): void {
+    this.store.removeFeature(index);
   }
+
   /**
    * Adds a new tag
    */
@@ -176,7 +193,7 @@ export class Step2DetailsComponent {
   /**
    * Updates a tag at specific index
    */
-  onTagChange(index: number, value: string): void {
-    this.store.updateTag(index, value);
+  onTagChange(index: number, event: Event): void {
+    this.store.updateTag(index, getInputValue(event));
   }
 }

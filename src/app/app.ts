@@ -1,38 +1,14 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, FormsModule, RouterModule],
+  imports: [RouterOutlet, CommonModule, RouterModule],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App {
-  steps = ['Info', 'Contact', 'Review'];
-
-  currentStep = 1;
-
-  // STATE (single source of truth)
-  form = {
-    name: '',
-    email: '',
-  };
-
-  next() {
-    if (this.currentStep < 3) this.currentStep++;
-  }
-
-  prev() {
-    if (this.currentStep > 1) this.currentStep--;
-  }
-
-  canProceed(): boolean {
-    if (this.currentStep === 1) return this.form.name.trim().length > 0;
-    if (this.currentStep === 2) return this.form.email.includes('@');
-    return true;
-  }
-  protected readonly title = signal('test-angular');
+export class AppComponent {
+  protected readonly title = 'test-angular';
 }

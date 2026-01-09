@@ -8,6 +8,16 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OfferingStore } from '../../store/offer';
 import { TierService } from '../../core/services/tier.service';
+import { Tier } from '../../core/models/tier.model';
+
+/**
+ * Interface for tier price tracking
+ */
+interface TierPrice {
+  price: number;
+  tier: Tier;
+  isMinPrice: boolean; // true if this is from a price range's minPrice
+}
 
 @Component({
   selector: 'app-preview-card',
@@ -70,12 +80,6 @@ export class PreviewCardComponent {
     }
 
     // For multiple tiers, find the absolute lowest price and its tier
-    interface TierPrice {
-      price: number;
-      tier: any;
-      isMinPrice: boolean; // true if this is from a price range's minPrice
-    }
-
     const tierPrices: TierPrice[] = [];
 
     tiers.forEach((tier) => {

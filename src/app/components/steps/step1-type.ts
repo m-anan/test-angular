@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OfferingStore } from '../../store/offer';
+import { OfferingStore, OfferingType, ProductType } from '../../store/offer';
 
 @Component({
   selector: 'app-step1-type',
@@ -299,13 +299,15 @@ import { OfferingStore } from '../../store/offer';
 })
 export class Step1TypeComponent {
   constructor(public store: OfferingStore) {}
-  select(type: any) {
+
+  select(type: OfferingType): void {
     this.store.update({ offeringType: type });
   }
 
-  setProduct(type: any) {
+  setProduct(type: ProductType): void {
     this.store.update({ productType: type });
   }
+
   buttonStyle =
     'border border-[#E3E8EF]  py-10  p-4 rounded-xl flex flex-col gap-2 items-center cursor-pointer';
 }

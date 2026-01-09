@@ -16,11 +16,13 @@
       <div class="flex items-center justify-between mb-3">
         <h3 class="font-medium">Offering Display Name</h3>
 
-        <label class="flex items-center gap-2 text-sm">
+        <label class="flex items-center gap-2 text-sm" [for]="componentId + '-override-checkbox'">
           <input
+            [id]="componentId + '-override-checkbox'"
             type="checkbox"
             [checked]="useDisplayNameOverride"
-            (change)="useDisplayNameOverrideChange.emit($any($event.target).checked)"
+            (change)="onDisplayNameOverrideCheckboxChange($event)"
+            aria-label="Enable custom display name override"
           />
           Overwrite
         </label>
@@ -29,20 +31,24 @@
       <!-- Read-only name from Step 2 -->
       @if (!useDisplayNameOverride) {
       <input
+        [id]="componentId + '-display-name-readonly'"
         class="border p-2 w-full bg-gray-100 text-gray-600"
         [value]="offeringName"
         placeholder="[Name of offering added on step 2]"
         disabled
+        aria-label="Offering display name from step 2"
       />
       }
 
       <!-- Editable override -->
       @if (useDisplayNameOverride) {
       <input
+        [id]="componentId + '-display-name-override'"
         class="border p-2 w-full"
         placeholder="Enter custom display name"
         [value]="displayNameOverride"
-        (input)="displayNameOverrideChange.emit($any($event.target).value)"
+        (input)="onDisplayNameOverrideInputChange($event)"
+        aria-label="Custom display name"
       />
       }
     </div>
@@ -50,15 +56,20 @@
     <!-- Bullet Points -->
     @for (bullet of tier.bullets; track $index; let i = $index) {
     <input
+      [id]="componentId + '-bullet-' + i"
       class="border p-2 w-full mb-1"
       [value]="bullet"
-      (input)="onBulletChange(i, $any($event.target).value)"
+      (input)="onBulletChange(i, $event)"
+      [placeholder]="'Bullet point ' + (i + 1)"
+      [attr.aria-label]="'Bullet point ' + (i + 1)"
     />
     }
 
     <button
+      type="button"
       class="text-[#FC5450] border rounded-full border-[#FC5450] p-2 px-6 mt-2"
       (click)="onAddBullet()"
+      aria-label="Add bullet point"
     >
       Add Bullet Point
     </button>
@@ -71,11 +82,15 @@
     <!-- Billing Type Dropdown (Service Only) -->
     @if (showBillingTypeDropdown) {
     <div class="mb-3">
-      <label class="block text-sm font-medium mb-1">Main Billing Type</label>
+      <label class="block text-sm font-medium mb-1" [for]="componentId + '-billing-type'"
+        >Main Billing Type</label
+      >
       <select
+        [id]="componentId + '-billing-type'"
         class="border p-2 w-full rounded"
         [value]="tier.billingType"
-        (change)="onTierPropertyChange('billingType', $any($event.target).value)"
+        (change)="onSelectChange('billingType', $event)"
+        aria-label="Select billing type"
       >
         <option value="project">Per Project</option>
         <option value="hourly">Hourly</option>
@@ -86,11 +101,16 @@
 
     <!-- Price Range Toggle (Service Only) -->
     @if (showPriceRangeToggle && !tier.requestQuoteOnly) {
-    <label class="flex items-center gap-2 mb-3">
+    <label
+      class="flex items-center gap-2 mb-3"
+      [for]="componentId + '-price-range-checkbox'"
+    >
       <input
+        [id]="componentId + '-price-range-checkbox'"
         type="checkbox"
         [checked]="tier.usePriceRange"
-        (change)="onTierPropertyChange('usePriceRange', $any($event.target).checked)"
+        (change)="onCheckboxChange('usePriceRange', $event)"
+        aria-label="Enable price range"
       />
       <span class="text-sm">Price Range</span>
     </label>
@@ -102,23 +122,27 @@
     @if (isService && tier.usePriceRange) {
     <div class="flex gap-2 mb-3">
       <div class="flex-1">
-        <label class="block text-sm mb-1">Min Price</label>
+        <label class="block text-sm mb-1" [for]="componentId + '-min-price'">Min Price</label>
         <input
+          [id]="componentId + '-min-price'"
           type="number"
           class="border p-2 w-full rounded"
           placeholder="Min"
           [value]="tier.minPrice"
-          (input)="onTierPropertyChange('minPrice', $any($event.target).valueAsNumber || undefined)"
+          (input)="onNumberInputChange('minPrice', $event)"
+          aria-label="Minimum price"
         />
       </div>
       <div class="flex-1">
-        <label class="block text-sm mb-1">Max Price</label>
+        <label class="block text-sm mb-1" [for]="componentId + '-max-price'">Max Price</label>
         <input
+          [id]="componentId + '-max-price'"
           type="number"
           class="border p-2 w-full rounded"
           placeholder="Max"
           [value]="tier.maxPrice"
-          (input)="onTierPropertyChange('maxPrice', $any($event.target).valueAsNumber || undefined)"
+          (input)="onNumberInputChange('maxPrice', $event)"
+          aria-label="Maximum price"
         />
       </div>
     </div>
@@ -127,13 +151,15 @@
     <!-- Fixed Price (Service without range, Product, Subscription) -->
     @if (!isService || !tier.usePriceRange) {
     <div class="mb-3">
-      <label class="block text-sm mb-1">Price</label>
+      <label class="block text-sm mb-1" [for]="componentId + '-price'">Price</label>
       <input
+        [id]="componentId + '-price'"
         type="number"
         class="border p-2 w-full rounded"
         placeholder="Enter price"
         [value]="tier.price"
-        (input)="onTierPropertyChange('price', $any($event.target).valueAsNumber || undefined)"
+        (input)="onNumberInputChange('price', $event)"
+        aria-label="Price"
       />
     </div>
     }
@@ -141,11 +167,15 @@
     <!-- Monthly Duration (Service - Monthly Retainer Only) -->
     @if (showMonthlyDuration) {
     <div class="mb-3">
-      <label class="block text-sm mb-1">Number of Months</label>
+      <label class="block text-sm mb-1" [for]="componentId + '-monthly-duration'"
+        >Number of Months</label
+      >
       <select
+        [id]="componentId + '-monthly-duration'"
         class="border p-2 w-full rounded"
         [value]="tier.monthlyDuration || 1"
-        (change)="onTierPropertyChange('monthlyDuration', +$any($event.target).value)"
+        (change)="onSelectNumberChange('monthlyDuration', $event)"
+        aria-label="Select number of months"
       >
         @for (month of monthOptions; track month) {
         <option [value]="month">{{ month }} month{{ month > 1 ? 's' : '' }}</option>
@@ -157,22 +187,31 @@
     <!-- Yearly Discount (Subscription Only) -->
     @if (showYearlyDiscount) {
     <div class="mb-3">
-      <label class="flex items-center gap-2 mb-2">
+      <label
+        class="flex items-center gap-2 mb-2"
+        [for]="componentId + '-yearly-discount-checkbox'"
+      >
         <input
+          [id]="componentId + '-yearly-discount-checkbox'"
           type="checkbox"
           [checked]="tier.enableYearlyDiscount"
-          (change)="onTierPropertyChange('enableYearlyDiscount', $any($event.target).checked)"
+          (change)="onCheckboxChange('enableYearlyDiscount', $event)"
+          aria-label="Enable yearly discount"
         />
         <span class="text-sm font-medium">Enable Yearly Discount</span>
       </label>
 
       @if (tier.enableYearlyDiscount) {
       <div class="ml-6">
-        <label class="block text-sm mb-1">Discount Percentage</label>
+        <label class="block text-sm mb-1" [for]="componentId + '-discount-percent'"
+          >Discount Percentage</label
+        >
         <select
+          [id]="componentId + '-discount-percent'"
           class="border p-2 w-full rounded mb-2"
           [value]="tier.yearlyDiscountPercent || 10"
-          (change)="onTierPropertyChange('yearlyDiscountPercent', +$any($event.target).value)"
+          (change)="onSelectNumberChange('yearlyDiscountPercent', $event)"
+          aria-label="Select discount percentage"
         >
           @for (discount of discountOptions; track discount) {
           <option [value]="discount">{{ discount }}%</option>
@@ -180,7 +219,7 @@
         </select>
 
         @if (tier.price && tier.yearlyDiscountPercent) {
-        <div class="text-sm text-green-600 font-medium">
+        <div class="text-sm text-green-600 font-medium" aria-live="polite">
           User Pays: ${{ calculatedYearlyPrice.toFixed(2) }}/year
         </div>
         }
@@ -190,11 +229,13 @@
     } }
 
     <!-- Request Quote Only -->
-    <label class="flex items-center gap-2 mt-3">
+    <label class="flex items-center gap-2 mt-3" [for]="componentId + '-quote-only-checkbox'">
       <input
+        [id]="componentId + '-quote-only-checkbox'"
         type="checkbox"
         [checked]="tier.requestQuoteOnly"
-        (change)="onTierPropertyChange('requestQuoteOnly', $any($event.target).checked)"
+        (change)="onCheckboxChange('requestQuoteOnly', $event)"
+        aria-label="Request quote only"
       />
       <span class="text-sm">Request Quote Only</span>
     </label>
@@ -203,14 +244,18 @@
 
 <!-- Footer -->
 <div class="flex justify-between mt-4 p-5 border-t border-[#F2F5F9]">
-  <label class="flex items-center gap-2">
+  <label class="flex items-center gap-2" [for]="componentId + '-popular-checkbox'">
     <input
+      [id]="componentId + '-popular-checkbox'"
       type="checkbox"
       [checked]="tier.popular"
-      (change)="onTierPropertyChange('popular', $any($event.target).checked)"
+      (change)="onCheckboxChange('popular', $event)"
+      aria-label="Mark as popular choice"
     />
     Mark as Popular Choice
   </label>
 
-  <button class="text-red-600" (click)="onDeleteTier()">Delete Tier</button>
+  <button type="button" class="text-red-600" (click)="onDeleteTier()" aria-label="Delete tier">
+    Delete Tier
+  </button>
 </div>
