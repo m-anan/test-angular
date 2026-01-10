@@ -16,7 +16,9 @@ export class OfferingValidationService {
    * Validates step 1 (Type selection)
    */
   validateStep1(state: OfferingState): boolean {
-    return !!state.offeringType;
+    return state.offeringType === 'product' && !!state.productType
+      ? true
+      : !!state.offeringType && state.offeringType !== 'product';
   }
 
   /**
@@ -125,4 +127,3 @@ export class OfferingValidationService {
     return errors;
   }
 }
-
