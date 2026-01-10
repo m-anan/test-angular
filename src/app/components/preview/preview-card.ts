@@ -4,7 +4,14 @@
  * Refactored to use TierService for price calculations
  */
 
-import { Component, inject, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  inject,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OfferingStore } from '../../store/offer';
 import { TierService } from '../../core/services/tier.service';
@@ -29,11 +36,19 @@ interface TierPrice {
     <div class="bg-white shadow-xl rounded-xl overflow-hidden">
       @if (store.value.thumbnail) {
       <div
-        class="h-40 bg-cover "
+        class="h-40 bg-cover  "
         [style.backgroundImage]="'url(' + store.value.thumbnail + ')'"
       ></div>
       } @else {
-      <div class="h-40 " [style.background]="store.value.fallbackColor"></div>
+      <div
+        class="h-40"
+        [style.background-image]="
+          'linear-gradient(45deg, ' +
+          store.value.fallbackColor +
+          ' 20%, ' +
+          'rgb(51 51 51 / 89%) 100%)'
+        "
+      ></div>
       }
       <div class="p-4">
         <h3 class="font-bold text-lg">
@@ -45,7 +60,7 @@ interface TierPrice {
         </h3>
         <p class="text-sm text-[#303030] py-2">{{ store.value.description }}</p>
 
-        <ul class="list-disc ml-4 my-2 text-sm text-[#303030]">
+        <ul class="list-disc ml-4 my-2 text-xs text-[#303030]">
           @for (feature of store.value.features | slice:0:3; track $index) { @if (feature) {
           <li>{{ feature }}</li>
           } }
