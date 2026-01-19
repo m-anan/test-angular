@@ -16,8 +16,8 @@ import { OfferingStore, OfferingType, ProductType } from '../../store/offer';
       <div class="flex gap-4 max-sm:flex-wrap items-center">
         <div class="flex text-sm max-sm:text-[9px] ">
           <span class="bg-[#1A99C3] text-white p-2 rounded-l-xl px-3">Company Type</span>
-          <span class="text-[#1A99C3] bg-white p-2 rounded-r-xl flex items-center gap-2 px-3"
-            ><svg
+          <span class="text-[#1A99C3] bg-white p-2 rounded-r-xl flex items-center gap-2 px-3">
+            <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
               height="20"

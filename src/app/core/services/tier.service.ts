@@ -190,15 +190,4 @@ export class TierService {
       bullets,
     };
   }
-
-  /**
-   * Clones a tier with a new ID
-   */
-  cloneTier(tier: Tier): Tier {
-    return {
-      ...tier,
-      id: generateUUID(),
-      name: `${tier.name} (Copy)`,
-    };
-  }
 }

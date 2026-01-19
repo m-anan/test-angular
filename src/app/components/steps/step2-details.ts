@@ -215,7 +215,6 @@ export class Step2DetailsComponent {
 
   // Constants for validation
   readonly maxFeatureLength = APP_CONSTANTS.VALIDATION.MAX_FEATURE_LENGTH;
-
   // Computed properties for template
   get offeringName(): string {
     return this.store.value.name;

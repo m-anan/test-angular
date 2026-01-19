@@ -22,6 +22,7 @@ export interface OfferingState {
   tags: string[];
 
   tiers: Tier[];
+
   thumbnail?: string;
   gallery: string[];
   fallbackColor?: string;
@@ -39,4 +40,3 @@ export interface OfferingFormValidation {
   step3Valid: boolean;
   step4Valid: boolean;
 }
-

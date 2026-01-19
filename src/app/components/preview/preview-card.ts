@@ -22,7 +22,8 @@ import { Subscription } from 'rxjs';
  * Interface for tier price tracking
  */
 interface TierPrice {
-  price: number;
+  price: number; // Display price (actual price shown to user)
+  normalizedMonthlyPrice: number; // Normalized to monthly for fair comparison
   tier: Tier;
   isMinPrice: boolean; // true if this is from a price range's minPrice
 }
@@ -98,6 +99,7 @@ export class PreviewCardComponent implements OnInit, OnDestroy {
    * Computed price label using TierService
    * Now considers offering type for proper formatting
    * For multiple tiers, shows "Starting from [lowest price]" with appropriate suffix
+   * Compares prices fairly by normalizing to the same billing period
    */
   get priceLabel(): string {
     const tiers = this.store.value.tiers;
@@ -117,22 +119,30 @@ export class PreviewCardComponent implements OnInit, OnDestroy {
       return this.tierService.formatTierPrice(tiers[0], offeringType);
     }
 
-    // For multiple tiers, find the absolute lowest price and its tier
+    // For multiple tiers, find the tier with lowest normalized monthly price
+    // This ensures fair comparison across different billing types
     const tierPrices: TierPrice[] = [];
 
     tiers.forEach((tier) => {
       if (!tier.requestQuoteOnly) {
         if (tier.usePriceRange) {
-          // For price ranges, add both min and max
+          // For price ranges, use min price
           if (tier.minPrice) {
-            tierPrices.push({ price: tier.minPrice, tier, isMinPrice: true });
-          }
-          if (tier.maxPrice) {
-            tierPrices.push({ price: tier.maxPrice, tier, isMinPrice: false });
+            tierPrices.push({
+              price: tier.minPrice,
+              normalizedMonthlyPrice: this.normalizeToMonthly(tier.minPrice, tier.billingType),
+              tier,
+              isMinPrice: true
+            });
           }
         } else if (tier.price) {
           // For fixed prices
-          tierPrices.push({ price: tier.price, tier, isMinPrice: false });
+          tierPrices.push({
+            price: tier.price,
+            normalizedMonthlyPrice: this.normalizeToMonthly(tier.price, tier.billingType),
+            tier,
+            isMinPrice: false
+          });
         }
       }
     });
@@ -141,9 +151,10 @@ export class PreviewCardComponent implements OnInit, OnDestroy {
       return 'Request Quote Only';
     }
 
-    // Find the tier with the absolute lowest price
+    // Find the tier with the lowest normalized monthly price for fair comparison
+    // This ensures $200/hr is correctly identified as more expensive than $199/month
     const lowestTierPrice = tierPrices.reduce((lowest, current) =>
-      current.price < lowest.price ? current : lowest
+      current.normalizedMonthlyPrice < lowest.normalizedMonthlyPrice ? current : lowest
     );
 
     const lowestPrice = lowestTierPrice.price;
@@ -157,6 +168,25 @@ export class PreviewCardComponent implements OnInit, OnDestroy {
 
     // Return "Starting from [lowest price][suffix]"
     return `Starting from $${lowestPrice}${suffix}`;
+  }
+
+  /**
+   * Normalizes prices to monthly equivalent for fair comparison
+   * Assumes standard work month of 160 hours (40 hours/week * 4 weeks)
+   */
+  private normalizeToMonthly(price: number, billingType: string): number {
+    switch (billingType) {
+      case 'hourly':
+        // 160 hours per month (40 hours/week * 4 weeks)
+        return price * 160;
+      case 'monthly':
+        return price;
+      case 'project':
+        // For project-based pricing, treat as one-time (equivalent to 1 month)
+        return price;
+      default:
+        return price;
+    }
   }
 
   private getBillingSuffix(tier: Tier): string {
